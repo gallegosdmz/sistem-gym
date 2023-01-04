@@ -5,16 +5,19 @@ const { contactoExiste } = require('../helpers/db-validators');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
+const { esEmpleadoRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
 router.get('/', [
     validarJWT,
+    esEmpleadoRole,
     validarCampos
 ], obtenerContactos);
 
 router.get('/:id', [
     validarJWT,
+    esEmpleadoRole,
     param('id', 'No es un ID válido').isMongoId(),
     param('id').custom(contactoExiste),
     validarCampos
@@ -22,6 +25,7 @@ router.get('/:id', [
 
 router.post('/', [
     validarJWT,
+    esEmpleadoRole,
     body('nombre', 'El nombre es obligatorio').notEmpty(),
     body('apellido', 'Apellido es necesario').notEmpty(),
     body('telefono', 'El telefono es obligatorio').notEmpty(),
@@ -31,6 +35,7 @@ router.post('/', [
 
 router.put('/:id', [
     validarJWT,
+    esEmpleadoRole,
     param('id', 'No es un ID válido').isMongoId(),
     param('id').custom(contactoExiste),
     body('nombre', 'El nombre es obligatorio').notEmpty(),
@@ -42,6 +47,7 @@ router.put('/:id', [
 
 router.delete('/:id', [
     validarJWT,
+    esEmpleadoRole,
     param('id', 'No es un ID válido').isMongoId(),
     param('id').custom(contactoExiste),
     validarCampos

@@ -1,46 +1,6 @@
 const { request, response } = require('express'); 
 const jwt = require('jsonwebtoken');
-const { Administrador, Empleado } = require('../models/');
-
-const validarJWT_Admin = async(req = request, res = response, next) => {
-    const token = req.header('x-token');
-
-    if (!token) {
-        return res.status(401).json({
-            msg: 'No hay token en la petición'
-        });
-    }
-
-    try {
-        const {uid} = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
-
-        // Leer el usuario que corresponde al uid
-        const administrador = await Administrador.findById(uid);
-
-        if (!administrador) {
-            return res.status(401).json({
-                msg: 'El usuario no existe en la BD'
-            });
-        }
-
-        // Verificar si el udi tiene estado en TRUE
-        if (!administrador.estado) {
-            return res.status(401).json({
-                msg: 'Usuario con estado false'
-            });
-        }
-
-        req.administrador = administrador;
-
-        next();
-    } catch(err) {
-        console.log(err);
-
-        res.status(401).json({
-            msg: 'Token no valido'
-        });
-    }
-}
+const { Empleado } = require('../models/');
 
 const validarJWT = async(req = request, res = response, next) => {
     const token = req.header('x-token');
@@ -51,59 +11,36 @@ const validarJWT = async(req = request, res = response, next) => {
         });
     }
 
+    
     try {
         const {uid} = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
 
-        // Leer el usuario que corresponde al uid
-        const administrador = await Administrador.findById(uid);
+        // Leer el empleado que corresponde al uid
         const empleado = await Empleado.findById(uid);
         
-        if (administrador) {
-            if (!administrador) {
-                return res.status(401).json({
-                    msg: 'El usuario no existe en la BD'
-                });
-            }
-    
-            // Verificar si el udi tiene estado en TRUE
-            if (!administrador.estado) {
-                return res.status(401).json({
-                    msg: 'Usuario con estado false'
-                });
-            }
+        if (!empleado) {
+            return res.status(401).json({
+                msg: 'Token no válido - Usuario no existe en BD'
+            });
+        }
 
-            req.administrador = administrador;
+        // Verificar si el uid tiene estado en TRUE
+        if (!empleado.estado) {
+            return res.status(401).json({
+                msg: 'Token no válido - Usuario con estado: false'
+            });
+        }
 
-            next();
-            
-        } else {
-            if (!empleado) {
-                return res.status(401).json({
-                    msg: 'El usuario no existe en la BD'
-                });
-            }
-    
-            // Verificar si el udi tiene estado en TRUE
-            if (!empleado.estado) {
-                return res.status(401).json({
-                    msg: 'Usuario con estado false'
-                });
-            }
-
-            req.empleado = empleado;
-
-            next();
-        }        
+        req.empleado = empleado;
+        next();
     } catch(err) {
         console.log(err);
-
         res.status(401).json({
-            msg: 'Token no valido'
+            msg: 'Token no válido'
         });
     }
 }
 
 module.exports = {
-    validarJWT_Admin,
     validarJWT
 }

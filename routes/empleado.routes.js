@@ -1,32 +1,30 @@
 const { Router } = require('express');
 const { body, param } = require('express-validator');
 const { crearEmpleado, obtenerEmpleados, login, editarEmpleado, obtenerEmpleado, eliminarEmpleado } = require('../controllers/empleado');
-const { emailExisteEmpleado, curpExiste, rfcExiste, contactoExiste, empleadoExiste } = require('../helpers/db-validators');
+const { emailExisteEmpleado, curpExiste, rfcExiste, contactoExiste, empleadoExiste, esRoleValido } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
-const { validarJWT_Admin } = require('../middlewares/validar-jwt');
+const { validarJWT } = require('../middlewares/validar-jwt');
+const { esAdminRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
 router.get('/', [
-    validarJWT_Admin,
+    validarJWT,
+    esAdminRole,
     validarCampos
 ], obtenerEmpleados);
 
 router.get('/:id', [
-    validarJWT_Admin,
+    validarJWT,
+    esAdminRole,
     param('id', 'El ID no es válido').isMongoId(),
     param('id').custom(empleadoExiste),
     validarCampos
 ], obtenerEmpleado);
 
-router.post('/login', [
-    body('correo', 'El correo es obligatorio').isEmail(),
-    body('password', 'La contraseña es obligatoria').notEmpty(),
-    validarCampos
-], login);
-
 router.post('/', [
-    validarJWT_Admin,
+    validarJWT,
+    esAdminRole,
     body('nombre', 'El nombre es obligatorio').notEmpty(),
     body('apellido', 'El apellido es obligatorio').notEmpty(),
     body('correo', 'El correo no es válido').isEmail(),
@@ -43,14 +41,15 @@ router.post('/', [
     body('fecha_nac', 'La fecha no es valida').isDate(),
     body('telefono', 'El telefono es obligatorio').notEmpty(),
     body('direccion', 'La direccion es obligatoria').notEmpty(),
-    body('rol', 'El rol es obligatorio'),
+    body('rol').custom(esRoleValido),
     body('contacto', 'El contacto es obligatorio').notEmpty(),
     body('contacto').custom(contactoExiste),
     validarCampos
 ], crearEmpleado);
 
 router.put('/:id', [
-    validarJWT_Admin,
+    validarJWT,
+    esAdminRole,
     param('id', 'El ID no es válido').isMongoId(),
     param('id').custom(empleadoExiste),
     body('nombre', 'El nombre es obligatorio').notEmpty(),
@@ -66,14 +65,15 @@ router.put('/:id', [
     body('fecha_nac', 'La fecha no es valida').isDate(),
     body('telefono', 'El telefono es obligatorio').notEmpty(),
     body('direccion', 'La direccion es obligatoria').notEmpty(),
-    body('rol', 'El rol es obligatorio'),
+    body('rol').custom(esRoleValido),
     body('contacto', 'El contacto es obligatorio').notEmpty(),
     body('contacto').custom(contactoExiste),
     validarCampos
 ], editarEmpleado);
 
 router.delete('/:id', [
-    validarJWT_Admin,
+    validarJWT,
+    esAdminRole,
     param('id', 'No es un ID válido').isMongoId(),
     param('id').custom(empleadoExiste),
     validarCampos

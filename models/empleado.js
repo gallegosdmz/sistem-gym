@@ -71,7 +71,7 @@ const EmpleadoSchema = Schema({
     rol: {
         type: String,
         required: true,
-        emun: ['ENTRENADOR', 'RECEPCIONISTA', 'CONSERJE']
+        emun: ['ADMIN', 'ENTRENADOR', 'RECEPCIONISTA', 'CONSERJE']
     },
 
     contacto: {

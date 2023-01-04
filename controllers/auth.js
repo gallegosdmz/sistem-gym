@@ -1,42 +1,43 @@
-const { request, response } = require('express');
+const { response, request, json } = require('express');
 const bcryptjs = require('bcryptjs');
 
-const { Administrador } = require('../models');
-const { generarJWT } = require('../helpers/generar-jwt');
+const { Empleado } = require('../models');
+
+const { generarJWT } = require('../helpers');
 
 const login = async(req = request, res = response) => {
     const {correo, password} = req.body;
 
     try {
         // Verificar si el email existe
-        const administrador = await Administrador.findOne({correo});
-        if (!administrador) {
+        const empleado = await Empleado.findOne({correo});
+
+        if (!empleado) {
             return res.status(400).json({
                 msg: 'El correo no existe'
             });
         }
 
         // Verificar si el usuario está activo en la base de datos
-        if (!administrador.estado) {
+        if (!empleado.estado) {
             return res.status(400).json({
                 msg: 'Usuario desactivado del sistema'
             });
         }
 
-        // Verificar la contraseña
-        const validPassword = bcryptjs.compareSync(password, administrador.password);
+        // Verficar la contraseña
+        const validPassword = bcryptjs.compareSync(password, empleado.password);
         if (!validPassword) {
             return res.status(400).json({
-                msg: 'Contraseña incorrecta'
-            })
+                msg: 'Contraeña incorrecta'
+            });
         }
 
         // Generar JWT
-        const token = await generarJWT(administrador.id);
+        const token = await generarJWT(empleado.id);
 
         res.json({
-            msg: 'ok',
-            administrador,
+            empleado,
             token
         });
 
@@ -49,6 +50,19 @@ const login = async(req = request, res = response) => {
     }
 }
 
+const renovarToken = async(req = request, res = response) => {
+    const {empleado} = req;
+
+    //Generar el JWT
+    const token = await generarJWT(empleado.id);
+
+    res.json({
+        empleado,
+        token
+    });
+}
+
 module.exports = {
-    login
+    login,
+    renovarToken
 }

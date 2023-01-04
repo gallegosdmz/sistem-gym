@@ -1,4 +1,14 @@
-const { Empleado, Contacto } = require('../models');
+const { Empleado, Contacto, Role } = require('../models');
+
+// Helpers ROLES
+const esRoleValido = async(rol = '') => {
+  
+    const existeRol = await Role.findOne({rol});
+
+    if (!existeRol) {
+        throw new Error(`El rol ${rol} no está registrado en la base de datos`);
+    }
+}
 
 // Helpers EMPLEADO
 const emailExisteEmpleado = async(correo = '') => {
@@ -43,6 +53,7 @@ const contactoExiste = async(id) => {
 }
 
 module.exports = {
+    esRoleValido,
     emailExisteEmpleado,
     curpExiste,
     rfcExiste,
