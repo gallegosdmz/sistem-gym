@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <link href="/css/custom.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -393,40 +394,111 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Listar Empleados</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Agregar Empleado</h1>
                     <hr>
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Cuentas</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody id="tbodyEmpleados">
-                                    </tbody>
-                                </table>
+                    
+                    <form class="user" method="post" id="formulario">
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" name="nombre" id="nombreInput"
+                                    placeholder="Nombre" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="apellido" id="apellidoInput"
+                                    placeholder="Apellidos" required>
                             </div>
                         </div>
-                    </div>
-
+                        <div class="form-group">
+                            <input type="email" class="form-control form-control-user" name="correo" id="correoInput"
+                                placeholder="Correo" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" required>
+                            <span class="d-none errorSpan" id="errorCorreo">Este correo ya lo está usando otro empleado.</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="password" class="form-control form-control-user" name="password"
+                                    id="passwordInput" placeholder="Contraseña" required>
+                                <span class="d-none errorSpan" id="errorPassword">La contraseña no tiene más de 6 caracteres.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control form-control-user"
+                                    id="repetPasswordInput" placeholder="Repetir Password" required>
+                                <span class="d-none errorSpan" id="errorRepeatpassword">La contraseña no es igual a la ingresada anteriormente.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" name="curp" id="curpInput"
+                                    placeholder="CURP" required>
+                                    <span class="d-none errorSpan" id="errorCurp">Este CURP ya está registrado.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="rfc" id="rfcInput"
+                                    placeholder="RFC" required>
+                                <span class="d-none errorSpan" id="errorRfc">Este RFC ya está registrado.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" name="num_seguro" id="numseguroInput"
+                                    placeholder="Número de Seguro">
+                                    <span class="d-none errorSpan" id="errorNumero">El número de seguro no es válido.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="lugar_nacimiento" id="lugarnacimientoInput"
+                                    placeholder="Lugar de Nacimiento" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <select name="sexo" id="sexoInput" class="form-control" required>
+                                    <option value="selecciona">Selecciona un sexo</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select name="estado_civil" id="estadocivilInput" class="form-control" required>
+                                    <option value="selecciona">Selecciona su estado civil</option>
+                                    <option value="Soltero">Soltero</option>
+                                    <option value="Casado">Casado</option>
+                                    <option value="Divorciado">Divorciado</option>
+                                    <option value="Viudo">Víudo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechanacInput">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control form-control-user" name="fecha_nac" id="fechanacInput" required>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="tel" class="form-control form-control-user" name="telefono" id="telefonoInput"
+                                    placeholder="Número de Telefono" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="direccion" id="direccionInput"
+                                    placeholder="Direccion" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <select name="rol" id="rolInput" class="form-control" required>
+                                    <option value="selecciona">Selecciona un puesto</option>
+                                    <option value="ENTRENADOR">Entrenador</option>
+                                    <option value="RECEPCIONISTA">Recepcionista</option>
+                                    <option value="CONSERJE">Conserje</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select name="contacto" id="contactoInput" class="form-control">
+                                    <option value="selecciona">Selecciona un contacto</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Guardar
+                        </button>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -474,8 +546,7 @@
         </div>
     </div>
 
-    <script src="/js/empleados/listar.js"></script>
-
+    <script src="/js/empleados/crear.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

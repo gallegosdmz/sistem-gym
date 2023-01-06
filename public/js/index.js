@@ -5,7 +5,7 @@ const validarJWT = async() => {
 
     if (token.length <= 10) {
         window.location = 'pages/empleados/login.html'
-        throw new Error('No hay token en el servidior');
+        throw new Error('No hay token en el servidor');
     }
 
     const resp = await fetch('http://localhost:8080/auth/', {

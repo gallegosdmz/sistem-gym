@@ -6,13 +6,11 @@ const tbodyEmpleados = document.querySelector('#tbodyEmpleados');
 const getEmpleados = async() => {
     const token = localStorage.getItem('token') || '';
 
-    const resp = await fetch(`${url}`, {
+    const resp = await fetch(`${url}?limite=100`, {
         headers: {'x-token': token}
     });
 
     const {empleados} = await resp.json();
-
-    console.log(empleados);
 
     return empleados;
 }
@@ -21,7 +19,7 @@ const validarJWT = async() => {
     const token = localStorage.getItem('token') || '';
 
     if (token.length <= 10) {
-        window.location = 'pages/empleados/login.html'
+        window.location = 'login.html'
         throw new Error('No hay token en el servidior');
     }
 
