@@ -109,8 +109,8 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="../clientes/listar.html">Ver Clientes</a>
-                        <a class="collapse-item" href="../clientes/agregar.html">Crear Cliente</a>
+                        <a class="collapse-item" href="listar.html">Ver Clientes</a>
+                        <a class="collapse-item" href="agregar.html">Crear Cliente</a>
                         <div class="collapse-divider"></div>
                         <!-- <h6 class="collapse-header">Other Pages:</h6> -->
                     </div>
@@ -127,8 +127,8 @@
                 <div id="collapseEmpleados" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="listar.html">Ver Empleados</a>
-                        <a class="collapse-item" href="agregar.html">Crear Empleado</a>
+                        <a class="collapse-item" href="../empleados/listar.html">Ver Empleados</a>
+                        <a class="collapse-item" href="../empleados/agregar.html">Crear Empleado</a>
                     </div>
                 </div>
             </li>
@@ -144,20 +144,20 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
                         <a class="collapse-item" href="../contactos/listar.html">Ver Contactos</a>
-                        <a class="collapse-item" href="../contactos/agregar.html">Crear Contacto</a>
+                        <a class="collapse-item" href="../empleados/agregar.html">Crear Contacto</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item" id="navGanancias">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Ganancias</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item" id="navNominas">
                 <a class="nav-link" href="../empleados/nomina.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Nominas</span></a>
@@ -388,13 +388,13 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Listar Empleados</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Listar Clientes</h1>
                     <hr>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Cuentas</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"><a href="">Agregar Cliente</a></h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -404,7 +404,7 @@
                                             <th>Nombre</th>
                                             <th>Apellido</th>
                                             <th>Telefono</th>
-                                            <th>Puesto</th>
+                                            <th>Mensualidad</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -412,10 +412,10 @@
                                             <th>Nombre</th>
                                             <th>Apellido</th>
                                             <th>Telefono</th>
-                                            <th>Puesto</th>
+                                            <th>Mensualidad</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody id="tbodyEmpleados">
+                                    <tbody id="tbodyClientes">
                                     </tbody>
                                 </table>
                             </div>
@@ -469,7 +469,7 @@
         </div>
     </div>
 
-    <script src="/js/empleados/listar.js"></script>
+    <script src="/js/clientes/listar.js"></script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

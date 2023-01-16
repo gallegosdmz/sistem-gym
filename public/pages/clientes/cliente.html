@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
 
 </head>
 
@@ -109,8 +110,8 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="../clientes/listar.html">Ver Clientes</a>
-                        <a class="collapse-item" href="../clientes/agregar.html">Crear Cliente</a>
+                        <a class="collapse-item" href="listar.html">Ver Clientes</a>
+                        <a class="collapse-item" href="agregar.html">Crear Cliente</a>
                         <div class="collapse-divider"></div>
                         <!-- <h6 class="collapse-header">Other Pages:</h6> -->
                     </div>
@@ -127,8 +128,8 @@
                 <div id="collapseEmpleados" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="listar.html">Ver Empleados</a>
-                        <a class="collapse-item" href="agregar.html">Crear Empleado</a>
+                        <a class="collapse-item" href="../empleados/listar.html">Ver Empleados</a>
+                        <a class="collapse-item" href="../empleados/agregar.html">Crear Empleado</a>
                     </div>
                 </div>
             </li>
@@ -144,20 +145,20 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
                         <a class="collapse-item" href="../contactos/listar.html">Ver Contactos</a>
-                        <a class="collapse-item" href="../contactos/agregar.html">Crear Contacto</a>
+                        <a class="collapse-item" href="../empleados/agregar.html">Crear Contacto</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item" id="navGanancias">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Ganancias</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item" id="navNominas">
                 <a class="nav-link" href="../empleados/nomina.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Nominas</span></a>
@@ -388,37 +389,40 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Listar Empleados</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Ver Cliente</h1>
                     <hr>
 
-                    <!-- DataTales Example -->
+                    <!-- Basic Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Cuentas</h6>
+                            <h6 class="m-0 font-weight-bold text-primary" id="idP"></h6>                  
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody id="tbodyEmpleados">
-                                    </tbody>
-                                </table>
+                            <ul>
+                                <li><b>Nombre: </b> <p id="nombreP" class="d-inline"></p></li>
+                                <li><b>Apellido: </b> <p id="apellidoP" class="d-inline"></p></li>
+                                <li><b>Correo: </b> <p id="correoP" class="d-inline"></p></li>
+                                <li><b>Telefono: </b> <p id="telefonoP" class="d-inline"></p></li>
+                                <li><b>Mensualidad: </b> <p id="mensualidadP" class="d-inline"></p></li>
+                                <li><b>Fecha de Pago: </b> <p id="fechapagoP" class="d-inline"></p></li>
+                            </ul>
+
+                            <hr>
+
+                            <div>
+                                <button class="btn btn-primary" id="btnEditar">Editar</button>
+                                <button class="btn btn-danger" id="btnBorrar">Borrar</button>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Ventana modal, por defecto no visiblel -->
+                    <div id="ventanaModal" class="modal">
+                        <div class="contenido-modal">
+                            <span class="cerrar">&times;</span>
+                            <h2 class="mb-3">¿Desea eliminar este usuario?</h2>
+                            <button class="btn btn-danger" id="confEliminar">Eliminar</button>
+                            <button class="btn btn-primary" id="confSalir">Salir</button>
                         </div>
                     </div>
 
@@ -469,7 +473,7 @@
         </div>
     </div>
 
-    <script src="/js/empleados/listar.js"></script>
+    <script src="/js/clientes/listarCliente.js"></script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

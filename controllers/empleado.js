@@ -28,7 +28,7 @@ const obtenerEmpleados = async(req = request, res = response) => {
 const obtenerEmpleado = async(req = request, res = response) => {
     const {id} = req.params;
 
-    const empleado = await Empleado.findById(id).populate('contacto', 'nombre apellido telefono parentesco');
+    const empleado = await Empleado.findById(id).populate('contacto', 'nombre apellido telefono parentesco estado');
 
     if (!empleado.estado) {
         return res.status(400).json({

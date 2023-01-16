@@ -1,4 +1,4 @@
-const { Empleado, Contacto, Role } = require('../models');
+const { Empleado, Contacto, Role, Cliente, Mensualidad, Nomina } = require('../models');
 
 // Helpers ROLES
 const esRoleValido = async(rol = '') => {
@@ -25,6 +25,10 @@ const empleadoExiste = async(id) => {
     if (!empleado) {
         throw new Error(`El empleado ${id}, no existe`);
     }
+
+    if (!empleado.estado) {
+        throw new Error(`El empleado ${id}, está eliminado de la BD`);
+    }
 }
 
 const curpExiste = async(curp = '') => {
@@ -50,6 +54,57 @@ const contactoExiste = async(id) => {
     if (!existeContacto) {
         throw new Error(`El contacto ${id}, no existe`);
     }
+
+    if (!existeContacto.estado) {
+        throw new Error(`El contacto ${id}, está eliminado de la BD`);
+    }
+}
+
+// Helpers CLIENTE
+const clienteExiste = async(id) => {
+    const existeCliente = await Cliente.findById(id);
+
+    if (!existeCliente) {
+        throw new Error(`El cliente ${id}, no existe`);
+    }
+
+    if (!existeCliente.estado) {
+        throw new Error(`El cliente ${id}, está eliminado de la BD`);
+    }
+}
+
+const emailExisteCliente = async(correo = '') => {
+    const existeEmail = await Cliente.findOne({correo});
+
+    if (existeEmail) {
+        throw new Error(`El correo ${correo}, ya está registrado`);
+    }
+}
+
+// Helpers MENSUALIDADES
+const mensualidadExiste = async(id) => {
+    const existeMensualidad = await Mensualidad.findById(id);
+
+    if (!existeMensualidad) {
+        throw new Error(`La mensualidad ${id}, no existe`);
+    }
+
+    if (!existeMensualidad.estado) {
+        throw new Error(`La mensualidad ${id}, está eliminada de la BD`);
+    }
+}
+
+// Helpers NOMINAS
+const nominaExiste = async(id) => {
+    const existeNomina = await Nomina.findById(id);
+
+    if (!existeNomina) {
+        throw new Error(`La nomina ${id}, no existe`);
+    }
+
+    if (!existeNomina.estado) {
+        throw new Error(`La nomina ${id}, está eliminada de la BD`);
+    }
 }
 
 module.exports = {
@@ -58,5 +113,9 @@ module.exports = {
     curpExiste,
     rfcExiste,
     contactoExiste,
-    empleadoExiste
+    empleadoExiste,
+    clienteExiste,
+    emailExisteCliente,
+    mensualidadExiste,
+    nominaExiste
 }

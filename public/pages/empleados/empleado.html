@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
 
 </head>
 
@@ -388,41 +389,60 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Listar Empleados</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Ver Empleado</h1>
                     <hr>
 
-                    <!-- DataTales Example -->
+                    <!-- Basic Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Cuentas</h6>
+                            <h6 class="m-0 font-weight-bold text-primary" id="idP"></h6>                  
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody id="tbodyEmpleados">
-                                    </tbody>
-                                </table>
+                            <ul>
+                                <li><b>Nombre: </b> <p id="nombreP" class="d-inline"></p></li>
+                                <li><b>Apellido: </b> <p id="apellidoP" class="d-inline"></p></li>
+                                <li><b>Correo: </b> <p id="correoP" class="d-inline"></p></li>
+                                <li><b>CURP: </b> <p id="curpP" class="d-inline"></p></li>
+                                <li><b>RFC: </b> <p id="rfcP" class="d-inline"></p></li>
+                                <li><b>Seguro Social: </b> <p id="seguroP" class="d-inline"></p></li>
+                                <li><b>Lugar de Nacimiento: </b> <p id="lugarnacP" class="d-inline"></p></li>
+                                <li><b>Sexo: </b> <p id="sexoP" class="d-inline"></p></li>
+                                <li><b>Estado Civil: </b> <p id="civilP" class="d-inline"></p></li>
+                                <li><b>Fecha de Nacimiento: </b> <p id="fechanacP" class="d-inline"></p></li>
+                                <li><b>Telefono: </b> <p id="telefonoP" class="d-inline"></p></li>
+                                <li><b>Direccion: </b> <p id="direccionP" class="d-inline"></p></li>
+                                <li><b>Puesto: </b> <p id="rolP" class="d-inline"></p></li>
+                                <hr>
+                                <b>Contacto: </b>
+                                <ul class="mt-4">
+                                    <li id="nombreB"><b>Nombre: </b> <p id="contactoNombreP" class="d-inline"></p></li>
+                                    <li id="apellidoB"><b>Apellido: </b> <p id="contactoApellidoP" class="d-inline"></p></li>
+                                    <li id="telefonoB"><b>Telefono: </b> <p id="contactoTelefonoP" class="d-inline"></p></li>
+                                    <p id="errorContacto" class="d-none errorSpan">El contacto está eliminado de la base de datos.</p>
+                                </ul>
+                            </ul>
+
+                            <hr>
+
+                            <div>
+                                <button class="btn btn-primary" id="btnEditar">Editar</button>
+                                <button class="btn btn-danger" id="btnBorrar">Borrar</button>
                             </div>
                         </div>
                     </div>
 
                 </div>
+
+                <!-- Ventana modal, por defecto no visiblel -->
+                <div id="ventanaModal" class="modal">
+                    <div class="contenido-modal">
+                        <span class="cerrar">&times;</span>
+                        <h2 class="mb-3">¿Desea eliminar este usuario?</h2>
+                        <button class="btn btn-danger" id="confEliminar">Eliminar</button>
+                        <button class="btn btn-primary" id="confSalir">Salir</button>
+                    </div>
+                </div>
+
                 <!-- /.container-fluid -->
 
             </div>
@@ -469,7 +489,7 @@
         </div>
     </div>
 
-    <script src="/js/empleados/listar.js"></script>
+    <script src="/js/empleados/listarEmpleado.js"></script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

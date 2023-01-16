@@ -1,21 +1,42 @@
-const contactoInput = document.querySelector('#contactoInput');
+const url = 'http://localhost:8080/empleado';
 const empleadoName = document.querySelector('#empleadoName');
 
 const passwordInput = document.getElementById('passwordInput');
 const repetPasswordInput = document.getElementById('repetPasswordInput');
+
+let nombreInput = document.getElementById('nombreInput');
 
 const formulario = document.querySelector('#formulario');
 
 const getContactos = async() => {
     const token = localStorage.getItem('token') || '';
 
-    const resp = await fetch('http://localhost:8080/contacto?limite=100', {
+    const resp = await fetch('http://localhost:8080/contacto', {
         headers: {'x-token': token}
     });
 
     const { contactos } = await resp.json();
 
     return contactos;
+}
+
+const getEmpleado = async() => {
+    const token = localStorage.getItem('token') || '';
+
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const id = urlSearchParams.get("id");
+
+    if (!id) {
+        window.location = 'listar.html';
+    }
+
+    const resp = await fetch(`${url}/${id}`, {
+        headers: {'x-token': token}
+    });
+
+    const { empleado } = await resp.json();
+
+    return empleado;
 }
 
 const validarJWT = async() => {
@@ -82,9 +103,29 @@ const resetErrors = () => {
     document.getElementById('errorRfc').classList.add('d-none');
 }
 
+const renderData = (empleado) => {
+
+    const date = empleado.fecha_nac.slice(0, 10);
+    
+    document.getElementById('nombreInput').value = empleado.nombre;
+    document.getElementById('apellidoInput').value = empleado.apellido;
+    document.getElementById('correoInput').value = empleado.correo;
+    document.getElementById('passwordInput').value = empleado.password;
+    document.getElementById('curpInput').value = empleado.curp;
+    document.getElementById('rfcInput').value = empleado.rfc;
+    document.getElementById('numseguroInput').value = empleado.num_seguro;
+    document.getElementById('lugarnacimientoInput').value = empleado.lugar_nacimiento;
+    document.getElementById('fechanacInput').value = date;
+    document.getElementById('telefonoInput').value = empleado.telefono;
+    document.getElementById('direccionInput').value = empleado.direccion;
+}
+
 formulario.addEventListener('submit', ev => {
     ev.preventDefault();
     const formData = {};
+
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const id = urlSearchParams.get("id");
 
     resetErrors();
 
@@ -103,14 +144,15 @@ formulario.addEventListener('submit', ev => {
         const contra = formData.password;
         formData.password = contra.split(" ").join("");
 
-        fetch('http://localhost:8080/empleado', {
-            method: 'POST',
+        fetch(`${url}/${id}`, {
+            method: 'PUT',
             body: JSON.stringify(formData),
             headers: {'Content-Type': 'application/json', 'x-token': token}
         })
         .then(resp => resp.json())
         .then(({errors}) => {
             if (errors) {
+                console.log(errors);
                 return errors.forEach(x => {
                     switch(x.param) {
                         case 'correo':
@@ -146,7 +188,8 @@ formulario.addEventListener('submit', ev => {
 });
 
 const main = async() => {
-    await validarJWT();
+    await validarJWT()
+    getEmpleado().then(renderData);
     getContactos().then(renderOptions);
 }
 

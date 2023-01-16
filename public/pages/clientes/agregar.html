@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <link href="/css/custom.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -109,8 +110,8 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="../clientes/listar.html">Ver Clientes</a>
-                        <a class="collapse-item" href="../clientes/agregar.html">Crear Cliente</a>
+                        <a class="collapse-item" href="listar.html">Ver Clientes</a>
+                        <a class="collapse-item" href="agregar.html">Crear Cliente</a>
                         <div class="collapse-divider"></div>
                         <!-- <h6 class="collapse-header">Other Pages:</h6> -->
                     </div>
@@ -127,8 +128,8 @@
                 <div id="collapseEmpleados" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="listar.html">Ver Empleados</a>
-                        <a class="collapse-item" href="agregar.html">Crear Empleado</a>
+                        <a class="collapse-item" href="../empleados/listar.html">Ver Empleados</a>
+                        <a class="collapse-item" href="../empleados/agregar.html">Crear Empleado</a>
                     </div>
                 </div>
             </li>
@@ -144,7 +145,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
                         <a class="collapse-item" href="../contactos/listar.html">Ver Contactos</a>
-                        <a class="collapse-item" href="../contactos/agregar.html">Crear Contacto</a>
+                        <a class="collapse-item" href="../empleados/agregar.html">Crear Contacto</a>
                     </div>
                 </div>
             </li>
@@ -388,40 +389,74 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Listar Empleados</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Agregar Cliente</h1>
                     <hr>
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Cuentas</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Telefono</th>
-                                            <th>Puesto</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody id="tbodyEmpleados">
-                                    </tbody>
-                                </table>
+                    
+                    <form class="user" method="post" id="formulario">
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" name="nombre" id="nombreInput"
+                                    placeholder="Nombre" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="apellido" id="apellidoInput"
+                                    placeholder="Apellidos" required>
                             </div>
                         </div>
-                    </div>
-
+                        <div class="form-group">
+                            <input type="email" class="form-control form-control-user" name="correo" id="correoInput"
+                                placeholder="Correo" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" required>
+                            <span class="d-none errorSpan" id="errorCorreo">Este correo ya lo está usando otro empleado.</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="password" class="form-control form-control-user" name="password"
+                                    id="passwordInput" placeholder="Contraseña" required>
+                                <span class="d-none errorSpan" id="errorPassword">La contraseña no tiene más de 6 caracteres.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control form-control-user"
+                                    id="repetPasswordInput" placeholder="Repetir Password" required>
+                                <span class="d-none errorSpan" id="errorRepeatpassword">La contraseña no es igual a la ingresada anteriormente.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechanacInput">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control form-control-user" name="fecha_nac" id="fechanacInput" required>
+                            <span class="d-none errorSpan" id="errorFechanac">La contraseña no tiene más de 6 caracteres.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechapagoInput">Fecha de Pago</label>
+                            <input type="date" class="form-control form-control-user" name="fecha_pago" id="fechapagoInput" required>
+                            <span class="d-none errorSpan" id="errorFechapago">La contraseña no tiene más de 6 caracteres.</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="tel" class="form-control form-control-user" name="telefono" id="telefonoInput"
+                                    placeholder="Número de Telefono" required>
+                                <span class="d-none errorSpan" id="errorTelefono">La contraseña no tiene más de 6 caracteres.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="tipo_sangre" id="tiposangreInput"
+                                    placeholder="Tipo de Sangre" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <select name="mensualidad" id="mensualidadInput" class="form-control">
+                                    <option value="selecciona">Selecciona una mensualidad</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select name="contacto" id="contactoInput" class="form-control">
+                                    <option value="selecciona">Selecciona un contacto</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            Guardar
+                        </button>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -469,8 +504,7 @@
         </div>
     </div>
 
-    <script src="/js/empleados/listar.js"></script>
-
+    <script src="/js/clientes/crear.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

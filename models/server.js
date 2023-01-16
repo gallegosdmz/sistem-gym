@@ -11,8 +11,11 @@ class Server {
         // Paths de rutas
         this.paths = {
             auth: '/auth',
+            cliente: '/cliente',
             contacto: '/contacto',
-            empleado: '/empleado'
+            empleado: '/empleado',
+            mensualidad: '/mensualidad',
+            nomina: '/nomina'
         }
 
         // Conecatar a base de datos
@@ -43,8 +46,11 @@ class Server {
 
     routes() {
         this.app.use(this.paths.auth, require('../routes/auth.routes'));
+        this.app.use(this.paths.cliente, require('../routes/cliente.routes'));
         this.app.use(this.paths.contacto, require('../routes/contacto.routes'));
         this.app.use(this.paths.empleado, require('../routes/empleado.routes'));
+        this.app.use(this.paths.mensualidad, require('../routes/mensualidad.routes'));
+        this.app.use(this.paths.nomina, require('../routes/nomina.routes'));
     }
 
     listen() {

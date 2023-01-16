@@ -18,7 +18,6 @@ const obtenerContactos = async(req = request, res = response) => {
     ]);
 
     res.json({
-        msg: 'ok',
         total,
         contactos
     });
@@ -36,7 +35,6 @@ const obtenerContacto = async(req = request, res = response) => {
     }
 
     res.json({
-        msg: 'ok',
         contacto
     });
 }
@@ -55,7 +53,6 @@ const crearContacto = async(req = request, res = response) => {
     await contacto.save();
 
     res.json({
-        msg: 'ok',
         contacto
     });
 }
@@ -71,7 +68,6 @@ const editarContacto = async(req = request, res = response) => {
     const contacto = await Contacto.findByIdAndUpdate(id, resto, {new: true});
 
     res.json({
-        msg: 'ok',
         contacto
     });
 }
@@ -87,7 +83,6 @@ const eliminarContacto = async(req = request, res = response) => {
     const contacto = await Contacto.findByIdAndUpdate(id, data, {new: true});
 
     res.json({
-        msg: 'ok',
         contacto
     });
 }
