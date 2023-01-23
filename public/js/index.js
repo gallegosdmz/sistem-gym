@@ -1,7 +1,11 @@
 const empleadoName = document.querySelector('#empleadoName');
 
+const getToken = () => {
+    return localStorage.getItem('token') || '';
+}
+
 const validarJWT = async() => {
-    const token = localStorage.getItem('token') || '';
+    const token = getToken();
 
     if (token.length <= 10) {
         window.location = 'pages/empleados/login.html'

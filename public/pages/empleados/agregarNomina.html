@@ -110,8 +110,8 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="listar.html">Ver Clientes</a>
-                        <a class="collapse-item" href="agregar.html">Crear Cliente</a>
+                        <a class="collapse-item" href="../clientes/listar.html">Ver Clientes</a>
+                        <a class="collapse-item" href="../clientes/agregar.html">Crear Cliente</a>
                         <div class="collapse-divider"></div>
                         <!-- <h6 class="collapse-header">Other Pages:</h6> -->
                     </div>
@@ -128,8 +128,8 @@
                 <div id="collapseEmpleados" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
-                        <a class="collapse-item" href="../empleados/listar.html">Ver Empleados</a>
-                        <a class="collapse-item" href="../empleados/agregar.html">Crear Empleado</a>
+                        <a class="collapse-item" href="listar.html">Ver Empleados</a>
+                        <a class="collapse-item" href="agregar.html">Crear Empleado</a>
                     </div>
                 </div>
             </li>
@@ -145,7 +145,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Cuentas:</h6> -->
                         <a class="collapse-item" href="../contactos/listar.html">Ver Contactos</a>
-                        <a class="collapse-item" href="../empleados/agregar.html">Crear Contacto</a>
+                        <a class="collapse-item" href="../contactos/agregar.html">Crear Contacto</a>
                     </div>
                 </div>
             </li>
@@ -389,65 +389,71 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Editar Cliente</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Crear Nomina</h1>
                     <hr>
                     
                     <form class="user" method="post" id="formulario">
+                        <div class="form-group">
+                            <select name="empleado" id="empleadoInput" class="form-control" required>
+                                <option value="selecciona" disabled selected>Selecciona un empleado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                                <input type="number" class="form-control form-control-user" name="sueldo_base"
+                                    id="sueldobaseInput" placeholder="Sueldo Base" required>
+                                <span class="d-none errorSpan" id="errorSueldobase"></span>
+                        </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" name="nombre" id="nombreInput"
-                                    placeholder="Nombre" required>
+                                <input type="number" class="form-control form-control-user" name="horas_extra" id="horasextraInput"
+                                    placeholder="Horas Extra">
+                                <span class="d-none errorSpan" id="errorCurp"></span>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" name="apellido" id="apellidoInput"
-                                    placeholder="Apellidos" required>
+                                <input type="number" class="form-control form-control-user" name="precio_horas" id="preciohorasInput"
+                                    placeholder="Precio de las horas extra">
+                                <span class="d-none errorSpan" id="errorRfc"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" name="bono_transporte" id="bonotransporteInput"
+                                    placeholder="Bono de Transporte">
+                                <span class="d-none errorSpan" id="errorNumero"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="total_horas" id="totalhorasInput"
+                                    placeholder="Total de Horas" disabled>
+                                <span class="d-none errorSpan" id="errorNumero"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control form-control-user" name="correo" id="correoInput"
-                                placeholder="Correo" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" required>
-                            <span class="d-none errorSpan" id="errorCorreo">Este correo ya lo está usando otro empleado.</span>
+                            <input type="text" class="form-control form-control-user" name="total_asignaciones" id="totalasignacionesInput"
+                            placeholder="Total de Asignaciones" disabled>    
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="password" class="form-control form-control-user" name="password"
-                                    id="passwordInput" placeholder="Contraseña" required>
-                                <span class="d-none errorSpan" id="errorPassword">La contraseña no tiene más de 6 caracteres.</span>
+                                <input type="text" class="form-control form-control-user" name="adelanto_sueldo" id="adelantosueldoInput"
+                            placeholder="Adelanto de Sueldo"> 
                             </div>
                             <div class="col-sm-6">
-                                <input type="password" class="form-control form-control-user"
-                                    id="repetPasswordInput" placeholder="Repetir Password" required>
-                                <span class="d-none errorSpan" id="errorRepeatpassword">La contraseña no es igual a la ingresada anteriormente.</span>
+                                <input type="text" class="form-control form-control-user" name="sueldo_bruto" id="sueldobrutoInput"
+                            placeholder="Sueldo Bruto" disabled> 
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="fechanacInput">Fecha de Nacimiento</label>
-                            <input type="date" class="form-control form-control-user" name="fecha_nac" id="fechanacInput" required>
-                            <span class="d-none errorSpan" id="errorFechanac">La contraseña no tiene más de 6 caracteres.</span>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="tel" class="form-control form-control-user" name="telefono" id="telefonoInput"
-                                    placeholder="Número de Telefono" required>
-                                <span class="d-none errorSpan" id="errorTelefono">La contraseña no tiene más de 6 caracteres.</span>
+                                <input type="text" class="form-control form-control-user" name="isr" id="isrInput"
+                                    placeholder="ISR" disabled>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" name="tipo_sangre" id="tiposangreInput"
-                                    placeholder="Tipo de Sangre" required>
+                                <input type="text" class="form-control form-control-user" name="sueldo_neto" id="sueldonetoInput"
+                                    placeholder="Sueldo Neto" disabled>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <select name="mensualidad" id="mensualidadInput" class="form-control">
-                                    <option value="selecciona" disabled selected>Selecciona una mensualidad</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
-                                <select name="contacto" id="contactoInput" class="form-control">
-                                    <option value="selecciona" disabled selected>Selecciona un contacto</option>
-                                </select>
-                            </div>
-                        </div>
+                        <button type="button" class="btn btn-success btn-user btn-block" id="btnCalcular">
+                            Calcular Sueldo Neto
+                        </button>
                         <button type="submit" class="btn btn-primary btn-user btn-block">
                             Guardar
                         </button>
@@ -499,7 +505,7 @@
         </div>
     </div>
 
-    <script src="/js/clientes/editar.js"></script>
+    <script src="/js/empleados/crearNomina.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

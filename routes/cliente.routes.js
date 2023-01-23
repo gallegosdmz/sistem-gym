@@ -49,7 +49,6 @@ router.put('/:id', [
     body('telefono', 'El telefono es obligatorio').notEmpty(),
     body('mensualidad', 'La mensualidad es obligatoria').notEmpty(),
     body('mensualidad').custom(mensualidadExiste),
-    body('fecha_pago', 'La fecha no es valida').isDate(),
     body('contacto').custom(contactoExiste),
     body('fecha_nac', 'La fecha no es valida').isDate(),
     validarCampos

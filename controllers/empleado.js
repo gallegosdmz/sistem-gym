@@ -136,6 +136,32 @@ const editarEmpleado = async(req = request, res = response) => {
     });
 }
 
+const editarPassword = async(req = request, res = response) => {
+    const {id} = req.params;
+
+    const { password, newPassword, ...body } = req.body;
+
+    const empleado = await Empleado.findById(id);
+
+    const validPassword = bcryptjs.compareSync(password, empleado.password);
+    if (!validPassword) {
+        return res.status(400).json({
+            msg: 'Contraseña incorrecta'
+        });
+    }
+
+    // Encriptar contraseña
+    const salt = bcryptjs.genSaltSync();
+    body.password = bcryptjs.hashSync(newPassword, salt);
+
+
+    const update = await Empleado.findByIdAndUpdate(id, body, {new: true});
+
+    res.json({
+        update
+    });
+}
+
 const eliminarEmpleado = async(req = request, res = response) => {
     const {id} = req.params;
 
@@ -156,5 +182,6 @@ module.exports = {
     obtenerEmpleados,
     obtenerEmpleado,
     editarEmpleado,
+    editarPassword,
     eliminarEmpleado
 }

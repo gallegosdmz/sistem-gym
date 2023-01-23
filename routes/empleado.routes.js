@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { body, param } = require('express-validator');
-const { crearEmpleado, obtenerEmpleados, login, editarEmpleado, obtenerEmpleado, eliminarEmpleado } = require('../controllers/empleado');
+const { crearEmpleado, obtenerEmpleados, login, editarEmpleado, obtenerEmpleado, eliminarEmpleado, editarPassword } = require('../controllers/empleado');
 const { emailExisteEmpleado, curpExiste, rfcExiste, contactoExiste, empleadoExiste, esRoleValido } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -70,6 +70,16 @@ router.put('/:id', [
     body('contacto').custom(contactoExiste),
     validarCampos
 ], editarEmpleado);
+
+router.put('/password/:id', [
+    validarJWT,
+    esAdminRole,
+    param('id', 'El ID no es válido').isMongoId(),
+    param('id').custom(empleadoExiste),
+    body('password', 'La contraseña debe ser de más de 6 letras').isLength({min: 6}),
+    body('newPassword', 'La contraseña nueva debe ser de más de 6 letras').isLength({min: 6}),
+    validarCampos
+], editarPassword);
 
 router.delete('/:id', [
     validarJWT,
