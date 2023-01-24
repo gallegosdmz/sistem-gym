@@ -62,7 +62,7 @@ btnCalcular.addEventListener('click', () => {
     const total_asignaciones = parseInt(document.getElementById('bonotransporteInput').value || 0) + total_horas;
     document.getElementById('totalasignacionesInput').value = total_asignaciones;
 
-    const sueldo_bruto = parseInt(document.getElementById('sueldobaseInput').value) + parseInt(document.getElementById('adelantosueldoInput').value || 0) + total_asignaciones;
+    const sueldo_bruto = parseInt(document.getElementById('sueldobaseInput').value) + total_asignaciones - parseInt(document.getElementById('adelantosueldoInput').value || 0);
     document.getElementById('sueldobrutoInput').value = sueldo_bruto;
 
     // Calcular ISR
@@ -73,7 +73,72 @@ btnCalcular.addEventListener('click', () => {
     document.getElementById('sueldonetoInput').value = sueldo_bruto - isr;
 });
 
-//TODO AGREGAR OPCION PARA QUE SE DESPLIEGUE NOMBRE Y APELLIDO DEL EMPLEADO EN INPUTS
+const resetErrors = () => {
+    document.getElementById('errorSueldobase').classList.add('d-none');
+    document.getElementById('errorHoras').classList.add('d-none');
+    document.getElementById('errorPrecioHoras').classList.add('d-none');
+    document.getElementById('errorBono').classList.add('d-none');
+    document.getElementById('errorAdelanto').classList.add('d-none');
+}
+
+formulario.addEventListener('submit', ev => {
+    ev.preventDefault();
+    const formData = {};
+
+    resetErrors();
+
+    const token = getToken();
+
+    for (let el of formulario.elements) {
+        if (el.name.length > 0) {
+            formData[el.name] = el.value;
+        }
+    }
+
+    fetch('http://localhost:8080/nomina', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {'Content-Type': 'application/json', 'x-token': token}
+    })
+    .then(resp => resp.json())
+    .then(({errors}) => {
+        if (errors) {
+            return errors.forEach(x => {
+                switch(x.param) {
+                    case 'sueldo_base':
+                        document.getElementById('errorSueldobase').classList.remove('d-none');
+
+                        break;
+
+                    case 'horas_extra':
+                        document.getElementById('errorHoras').classList.remove('d-none');
+
+                        break;
+                    
+                    case 'precio_horas':
+                        document.getElementById('errorPrecioHoras').classList.remove('d-none');
+
+                        break;
+                    
+                    case 'bono_transporte':
+                        document.getElementById('errorBono').classList.remove('d-none');
+
+                        break;
+
+                    case 'adelanto_sueldo':
+                        document.getElementById('errorAdelanto').classList.remove('d-none');
+
+                        break;
+                }
+            });
+        }
+
+        window.location = 'listar.html';
+    })
+    .catch(err => {
+        console.log(err);
+    })
+});
 
 
 const main = async() => {

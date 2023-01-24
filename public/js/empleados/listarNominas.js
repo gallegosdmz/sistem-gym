@@ -3,8 +3,20 @@ const empleadoName = document.querySelector('#empleadoName');
 
 const tbodyNominas = document.querySelector('#tbodyNominas');
 
+const getToken = () => {
+    return localStorage.getItem('token') || '';
+}
+
 const getNominas = async() => {
-    
+    const token = getToken();
+
+    const resp = await fetch(`${url}?limite=100`, {
+        headers: {'x-token': token}
+    });
+
+    const { nominas } = await resp.json();
+
+    return nominas;
 }
 
 const validarJWT = async() => {
@@ -29,3 +41,26 @@ const validarJWT = async() => {
 
     empleadoName.innerText = empleado.nombre;
 }
+
+const renderNominas = (data) => {
+    data.forEach(x => {
+        const html = `
+            <td> <a href="empleado.html?id=${x.uid}">${x.empleado.nombre}</a> </td>
+            <td> ${x.empleado.apellido} </td>
+            <td> ${x.empleado.correo} </td>
+            <td> ${x.sueldo_neto} </td>
+        `;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = html;
+
+        tbodyNominas.append(tr);
+    });
+}
+
+const main = async() => {
+    await validarJWT();
+    getNominas().then(renderNominas);
+}
+
+main();
