@@ -32,7 +32,7 @@ const validarJWT = async() => {
     empleado = empleadoDB;
 
     if (empleado.rol !== 'ADMIN') {
-        document.getElementById('navEmpleados').remove();
+        window.location = '../../index.html';
     }
 
     empleadoName.innerText = empleado.nombre;

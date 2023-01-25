@@ -36,7 +36,7 @@ const validarJWT = async() => {
     empleado = empleadoDB;
 
     if (empleado.rol !== 'ADMIN') {
-        document.getElementById('navEmpleados').remove();
+        window.location = '../../index.html';
     }
 
     empleadoName.innerText = empleado.nombre;
@@ -45,7 +45,7 @@ const validarJWT = async() => {
 const renderNominas = (data) => {
     data.forEach(x => {
         const html = `
-            <td> <a href="empleado.html?id=${x.uid}">${x.empleado.nombre}</a> </td>
+            <td> <a href="nomina.html?id=${x.uid}">${x.empleado.nombre}</a> </td>
             <td> ${x.empleado.apellido} </td>
             <td> ${x.empleado.correo} </td>
             <td> ${x.sueldo_neto} </td>
