@@ -32,7 +32,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../../index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -44,7 +44,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="../../index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Inicio</span></a>
             </li>
@@ -159,7 +159,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="../empleados/nomina.html">
+                <a class="nav-link" href="nominas.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Nominas</span></a>
             </li>
@@ -440,6 +440,17 @@
                         <h2 class="mb-3">¿Desea eliminar este usuario?</h2>
                         <button class="btn btn-danger" id="confEliminar">Eliminar</button>
                         <button class="btn btn-primary" id="confSalir">Salir</button>
+                    </div>
+                </div>
+
+                <!-- Ventana modal, por defecto no visiblel -->
+                <div id="ventanaModalId" class="modal-id">
+                    <div class="contenido-modal">
+                        <span class="cerrar" id="cerrar_id">&times;</span>
+                        <h2 class="mb-3">El usuario que intenta buscar no existe, pruebe con otro.</h2>
+                        <input type="text" id="inputModal" class="form-control mb-2" placeholder="Ingrese un ID">
+                        <button class="btn btn-success" id="confBuscar">Buscar</button>
+                        <button class="btn btn-primary" id="confCancelar">Regresar a la lista</button>
                     </div>
                 </div>
 

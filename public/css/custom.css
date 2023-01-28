@@ -3,7 +3,7 @@
 }
 
 /* Fondo modal: negro con opacidad al 50% */
-.modal {
+.modal, .modal-id {
     display: none; /* Por defecto, estará oculto */
     position: fixed; /* Posición fija */
     z-index: 1; /* Se situará por encima de otros elementos de la página*/

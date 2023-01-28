@@ -26,6 +26,11 @@ const span = document.getElementsByClassName("cerrar")[0];
 const confEliminar = document.querySelector('#confEliminar');
 const confSalir = document.querySelector('#confSalir');
 
+const modal_id = document.getElementById("ventanaModalId");
+const span_id = document.getElementsByClassName("cerrar")[1];
+const confBuscar = document.querySelector('#confBuscar');
+const confCancelar = document.querySelector('#confCancelar');
+
 const getEmpleado = async() => {
     const token = localStorage.getItem('token') || '';
 
@@ -69,6 +74,10 @@ const validarJWT = async() => {
 }
 
 const renderQoute = (empleado) => {
+    if (!empleado) {
+        errorSearchId();
+    }
+
     idP.innerText = empleado.uid;
     nombreP.innerText = empleado.nombre;
     apellidoP.innerText = empleado.apellido;
@@ -98,6 +107,20 @@ const renderQoute = (empleado) => {
         contactoApellidoP.innerText = empleado.contacto.apellido;
         contactoTelefonoP.innerText = empleado.contacto.telefono;
     }
+}
+
+const errorSearchId = () => {
+    modal_id.style.display = "block";
+
+    confBuscar.addEventListener('click', () => {
+        const id = document.getElementById('inputModal').value;
+        
+        window.location = `empleado.html?id=${id}`;
+    });
+
+    confCancelar.addEventListener('click', () => {
+        window.location = 'listar.html';
+    });
 }
 
 btnEditar.addEventListener('click', () => {

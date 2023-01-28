@@ -1,4 +1,4 @@
-const { Empleado, Contacto, Role, Cliente, Mensualidad, Nomina } = require('../models');
+const { Empleado, Contacto, Role, Cliente, Mensualidad, Nomina, Servicio } = require('../models');
 
 // Helpers ROLES
 const esRoleValido = async(rol = '') => {
@@ -107,6 +107,19 @@ const nominaExiste = async(id) => {
     }
 }
 
+// Helpers SERVICIOS
+const servicioExiste = async(id) => {
+    const existeServicio = await Servicio.findById(id);
+
+    if (!existeServicio) {
+        throw new Error(`El servicio ${id}, no existe`);
+    }
+
+    if (!existeServicio.estado) {
+        throw new Error(`El servicio ${id}, está eliminado de la BD`);
+    }
+}
+
 module.exports = {
     esRoleValido,
     emailExisteEmpleado,
@@ -117,5 +130,6 @@ module.exports = {
     clienteExiste,
     emailExisteCliente,
     mensualidadExiste,
-    nominaExiste
+    nominaExiste,
+    servicioExiste
 }
