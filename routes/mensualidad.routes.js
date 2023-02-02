@@ -35,7 +35,6 @@ router.put('/:id', [
     esAdminRole,
     param('id', 'El ID no es válido').isMongoId(),
     param('id').custom(mensualidadExiste),
-    body('tipo', 'El tipo es obligatorio').notEmpty(),
     body('precio', 'El precio tiene que ser numerico').isNumeric(),
     validarCampos
 ], editarMensualidad);

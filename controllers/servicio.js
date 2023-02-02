@@ -53,7 +53,9 @@ const crearServicio = async(req = request, res = response) => {
 const editarServicio = async(req = request, res = response) => {
     const { id } = req.params;
 
-    const { estado, ...body } = req.params;
+    const { estado, ...body } = req.body;
+
+    body.updated_at = timeStamp;
 
     const servicio = await Servicio.findByIdAndUpdate(id, body, {new: true});
 

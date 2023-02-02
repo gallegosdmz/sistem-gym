@@ -4,7 +4,7 @@ const { obtenerClientes, obtenerCliente, crearCliente, editarCliente, eliminarCl
 const { clienteExiste, emailExisteCliente, mensualidadExiste, contactoExiste, empleadoExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { esAdminRole, esEmpleadoRole } = require('../middlewares/validar-roles');
+const { esEmpleadoRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
@@ -43,12 +43,10 @@ router.put('/:id', [
     esEmpleadoRole,
     param('id', 'No es un ID válido').isMongoId(),
     param('id').custom(clienteExiste),
-    body('nombre', 'El nombre es obligatorio').notEmpty(),
-    body('apellido', 'El apellido es obligatorio').notEmpty(),
+    body('correo').custom(emailExisteCliente),
     body('password', 'La contraseña debe de ser de más de 6 letra').isLength({min: 6}),
-    body('telefono', 'El telefono es obligatorio').notEmpty(),
-    body('mensualidad', 'La mensualidad es obligatoria').notEmpty(),
     body('mensualidad').custom(mensualidadExiste),
+    body('fecha_pago', 'La fecha no es valida').isDate(),
     body('contacto').custom(contactoExiste),
     body('fecha_nac', 'La fecha no es valida').isDate(),
     validarCampos

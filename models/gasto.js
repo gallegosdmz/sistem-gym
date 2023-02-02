@@ -47,6 +47,11 @@ const GastoSchema = Schema({
         ref: 'Servicio'
     },
 
+    nomina: {
+        type: Schema.Types.ObjectId,
+        ref: 'Nomina'
+    },
+
     created_at: {
         type: Date,
         default: timeStamp

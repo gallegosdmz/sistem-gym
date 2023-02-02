@@ -39,12 +39,8 @@ router.put('/:id', [
     esAdminRole,
     param('id', 'El ID no es válido').isMongoId(),
     param('id').custom(servicioExiste),
-    body('nombre', 'El nombre es obligatorio').notEmpty(),
-    body('fecha_pago', 'La fecha de pago es obligatoria').notEmpty(),
     body('fecha_pago', 'La fecha no es válida').isDate(),
-    body('precio', 'El precio es obligatorio').notEmpty(),
     body('precio', 'El precio tiene que ser numerico').isNumeric(),
-    body('company', 'La compañia es obligatoria').notEmpty(),
     validarCampos
 ], editarServicio);
 
@@ -55,7 +51,5 @@ router.delete('/:id', [
     param('id').custom(servicioExiste),
     validarCampos
 ], eliminarServicio);
-
-//TODO: FALTÓ PROBAR RUTAS EN POSTMAN
 
 module.exports = router;

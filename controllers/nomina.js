@@ -39,7 +39,13 @@ const obtenerNomina = async(req = request, res = response) => {
 }
 
 const crearNomina = async(req = request, res = response) => {
-    const { estado, ...body } = req.body;
+    const { estado, pagada, ...body } = req.body;
+
+    if (pagada) {
+        return res.status(400).json({
+            msg: 'La nomina ya está pagada'
+        });
+    }
 
     const nomina = new Nomina({...body});
     

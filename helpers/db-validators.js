@@ -1,4 +1,4 @@
-const { Empleado, Contacto, Role, Cliente, Mensualidad, Nomina, Servicio } = require('../models');
+const { Empleado, Contacto, Role, Cliente, Mensualidad, Nomina, Servicio, Categoria, Proveedor, Producto, Gasto } = require('../models');
 
 // Helpers ROLES
 const esRoleValido = async(rol = '') => {
@@ -107,6 +107,14 @@ const nominaExiste = async(id) => {
     }
 }
 
+const nominaPagada = async(id) => {
+    const nomina = await Nomina.findById(id);
+
+    if (nomina.pagada) {
+        throw new Error(`La nomina ${id}, ya está pagada`);
+    }
+}
+
 // Helpers SERVICIOS
 const servicioExiste = async(id) => {
     const existeServicio = await Servicio.findById(id);
@@ -117,6 +125,58 @@ const servicioExiste = async(id) => {
 
     if (!existeServicio.estado) {
         throw new Error(`El servicio ${id}, está eliminado de la BD`);
+    }
+}
+
+// Helpers CATEGORIAS
+const categoriaExiste = async(id) => {
+    const existeCategoria = await Categoria.findById(id);
+
+    if (!existeCategoria) {
+        throw new Error(`La categoria ${id}, no existe`);
+    }
+
+    if (!existeCategoria.estado) {
+        throw new Error(`La categoria ${id}, está eliminada de la BD`);
+    }
+}
+
+// Helpers PROVEEDORES
+const proveedorExiste = async(id) => {
+    const existeProveedor = await Proveedor.findById(id);
+
+    if (!existeProveedor) {
+        throw new Error(`El proveedor ${id}, no existe`);
+    }
+
+    if (!existeProveedor.estado) {
+        throw new Error(`El proveedor ${id}, está eliminado de la BD`);
+    }
+}
+
+// Helpers PRODUCTOS
+const productoExiste = async(id) => {
+    const existeProducto = await Producto.findById(id);
+
+    if (!existeProducto) {
+        throw new Error(`El producto ${id}, no existe`);
+    }
+    
+    if (!existeProducto.estado) {
+        throw new Error(`El producto ${id}, está eliminado de la BD`);
+    }
+}
+
+// Helpers GASTOS
+const gastoExiste = async(id) => {
+    const existeGasto = await Gasto.findById(id);
+
+    if (!existeGasto) {
+        throw new Error(`El gasto ${id}, no existe`);
+    }
+
+    if (!existeGasto.estado) {
+        throw new Error(`El gasto ${id}, está eliminado de la BD`);
     }
 }
 
@@ -131,5 +191,10 @@ module.exports = {
     emailExisteCliente,
     mensualidadExiste,
     nominaExiste,
-    servicioExiste
+    nominaPagada,
+    servicioExiste,
+    categoriaExiste,
+    proveedorExiste,
+    productoExiste,
+    gastoExiste
 }

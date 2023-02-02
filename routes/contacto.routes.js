@@ -38,10 +38,6 @@ router.put('/:id', [
     esEmpleadoRole,
     param('id', 'No es un ID válido').isMongoId(),
     param('id').custom(contactoExiste),
-    body('nombre', 'El nombre es obligatorio').notEmpty(),
-    body('apellido', 'El apellido es obligatorio').notEmpty(),
-    body('telefono', 'El telefono es obligatorio').notEmpty(),
-    body('parentesco', 'El parentesco es obligatorio'),
     validarCampos
 ], editarContacto);
 

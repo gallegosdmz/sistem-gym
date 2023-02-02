@@ -40,6 +40,11 @@ const NominaSchema = Schema({
         required: [true, 'El sueldo neto es obligatorio']
     },
 
+    pagada: {
+        type: Boolean,
+        default: false
+    },
+
     estado: {
         type: Boolean,
         default: true
