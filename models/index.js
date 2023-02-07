@@ -1,5 +1,6 @@
 const Server = require('./server');
 
+const Asistencia = require('./asistencia');
 const Categoria = require('./categoria');
 const Cliente = require('./cliente');
 const Contacto = require('./contacto');
@@ -12,9 +13,11 @@ const Proveedor = require('./proveedor');
 const Reporte = require('./reporte');
 const Role = require('./role');
 const Servicio = require('./servicio');
+const Turno = require('./turno');
 const Venta = require('./venta');
 
 module.exports = {
+    Asistencia,
     Categoria,
     Cliente,
     Contacto,
@@ -28,5 +31,6 @@ module.exports = {
     Role,
     Servicio,
     Server,
+    Turno,
     Venta
 }

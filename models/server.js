@@ -18,8 +18,11 @@ class Server {
             gasto: '/gasto',
             mensualidad: '/mensualidad',
             nomina: '/nomina',
+            producto: '/producto',
             proveedor: '/proveedor',
-            servicio: '/servicio'
+            servicio: '/servicio',
+            turno: '/turno',
+            venta: '/venta'
         }
 
         // Conecatar a base de datos
@@ -57,8 +60,11 @@ class Server {
         this.app.use(this.paths.gasto, require('../routes/gasto.routes'));
         this.app.use(this.paths.mensualidad, require('../routes/mensualidad.routes'));
         this.app.use(this.paths.nomina, require('../routes/nomina.routes'));
+        this.app.use(this.paths.producto, require('../routes/producto.routes'));
         this.app.use(this.paths.proveedor, require('../routes/proveedor.routes'));
         this.app.use(this.paths.servicio, require('../routes/servicio.routes'));
+        this.app.use(this.paths.turno, require('../routes/turno.routes'));
+        this.app.use(this.paths.venta, require('../routes/venta.routes'));
     }
 
     listen() {

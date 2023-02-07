@@ -24,7 +24,7 @@ const obtenerVentas = async(req = request, res = response) => {
 const obtenerVenta = async(req = request, res = response) => {
     const { id } = req.params;
 
-    const venta = await Venta.findById(id).populate('producto', 'uid nombre precio')
+    const venta = await Venta.findById(id).populate('productos', 'uid nombre precio_venta')
                                           .populate('cliente', 'uid nombre')
                                           .populate('empleado', 'uid nombre');
 
