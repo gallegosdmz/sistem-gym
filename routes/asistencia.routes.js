@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { body, param } = require('express-validator');
-const { obtenerTurnos, obtenerTurno, crearTurno, editarTurno, eliminarTurno } = require('../controllers/turno');
-const { turnoExiste } = require('../helpers/db-validators');
+const { obtenerAsistencias, obtenerAsistencia, crearAsistencia, eliminarAsistencia } = require('../controllers/asistencia');
+const { asistenciaExiste, clienteExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { esAdminRole, esEmpleadoRole } = require('../middlewares/validar-roles');
@@ -12,36 +12,30 @@ router.get('/', [
     validarJWT,
     esEmpleadoRole,
     validarCampos
-], obtenerTurnos);
+], obtenerAsistencias);
 
 router.get('/:id', [
     validarJWT,
     esEmpleadoRole,
-    param('id', 'No es un ID válido').isMongoId(),
-    param('id').custom(turnoExiste),
+    param('id', 'El ID no es válido').isMongoId(),
+    param('id').custom(asistenciaExiste),
     validarCampos
-], obtenerTurno);
+], obtenerAsistencia);
 
 router.post('/', [
     validarJWT,
     esEmpleadoRole,
+    body('fecha', 'La fecha no es válida').isDate(),
+    body('cliente').custom(clienteExiste),
     validarCampos
-], crearTurno);
-
-router.put('/:id', [
-    validarJWT,
-    esEmpleadoRole,
-    param('id', 'No es un ID válido').isMongoId(),
-    param('id').custom(turnoExiste),
-    validarCampos
-], editarTurno);
+], crearAsistencia);
 
 router.delete('/:id', [
     validarJWT,
     esAdminRole,
-    param('id', 'No es un ID válido').isMongoId(),
-    param('id').custom(turnoExiste),
+    param('id', 'El ID no es válido').isMongoId(),
+    param('id').custom(asistenciaExiste),
     validarCampos
-], eliminarTurno);
+], eliminarAsistencia);
 
 module.exports = router;

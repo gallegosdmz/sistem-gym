@@ -27,6 +27,11 @@ const TurnoSchema = Schema({
         default: true
     },
 
+    estado: {
+        type: Boolean,
+        default: true
+    },
+
     created_at: {
         type: Date,
         default: timeStamp

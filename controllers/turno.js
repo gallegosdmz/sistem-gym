@@ -24,7 +24,7 @@ const obtenerTurnos = async(req = request, res = response) => {
 const obtenerTurno = async(req = request, res = response) => {
     const { id } = req.params;
 
-    const turno = await Turno.findById(id).populate('empleado', 'uid nombre apellido correo')
+    const turno = await Turno.findById(id).populate('empleados', 'uid nombre apellido correo')
                                           .populate('asistencias', 'fecha cliente');
 
     if (!turno.estado) {
@@ -41,7 +41,7 @@ const obtenerTurno = async(req = request, res = response) => {
 const crearTurno = async(req = request, res = response) => {
     const { estado, empleados, asistencias, ...body } = req.body;
 
-    /* if (asistencias) {
+    if (asistencias) {
         asistencias.forEach( async x => {
             const buscarAsistencia = await Asistencia.findById(x);
 
@@ -59,7 +59,7 @@ const crearTurno = async(req = request, res = response) => {
         });
 
         body.asistencias = asistencias
-    } */
+    }
 
     const data = {
         ...body,
