@@ -1,4 +1,4 @@
-const { Empleado, Contacto, Role, Cliente, Mensualidad, Nomina, Servicio, Categoria, Proveedor, Producto, Gasto, Venta } = require('../models');
+const { Empleado, Contacto, Role, Cliente, Mensualidad, Nomina, Servicio, Categoria, Proveedor, Producto, Gasto, Venta, Turno } = require('../models');
 
 // Helpers ROLES
 const esRoleValido = async(rol = '') => {
@@ -193,6 +193,19 @@ const ventaExiste = async(id) => {
     }
 }
 
+// Helpers TURNOS
+const turnoExiste = async(id) => {
+    const existeTurno = await Turno.findById(id);
+
+    if (!existeTurno) {
+        throw new Error(`El turno ${id}, no existe`);
+    }
+
+    if (!existeTurno) {
+        throw new Error(`El turno ${id}, está eliminado de la BD`);
+    }
+}
+
 module.exports = {
     esRoleValido,
     emailExisteEmpleado,
@@ -210,5 +223,6 @@ module.exports = {
     proveedorExiste,
     productoExiste,
     gastoExiste,
-    ventaExiste
+    ventaExiste,
+    turnoExiste
 }

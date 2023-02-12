@@ -107,9 +107,25 @@ const editarTurno = async(req = request, res = response) => {
     });
 }
 
+const eliminarTurno = async(req = request, res = response) => {
+    const { id } = req.params;
+
+    const data = {
+        estado: false,
+        deleted_at: timeStamp
+    }
+
+    const turno = await Turno.findByIdAndUpdate(id, data, {new: true});
+
+    res.json({
+        turno
+    });
+}
+
 module.exports = {
     obtenerTurnos,
     obtenerTurno,
     crearTurno,
-    editarTurno
+    editarTurno,
+    eliminarTurno
 }
