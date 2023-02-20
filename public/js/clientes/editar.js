@@ -171,8 +171,6 @@ formulario.addEventListener('submit', ev => {
         const contra = formData.password;
         formData.password = contra.split(" ").join("");
 
-        console.log(formData);
-
         fetch(`${url}${id}`, {
             method: 'PUT',
             body: JSON.stringify(formData),

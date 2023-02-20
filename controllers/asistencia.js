@@ -25,7 +25,7 @@ const obtenerAsistencia = async(req = request, res = response) => {
     const { id } = req.params;
 
     const asistencia = await Asistencia.findById(id).populate('empleado', 'uid nombre correo')
-                                                    .populate('cliente', 'uid');
+                                                    .populate('cliente', 'uid nombre correo');
 
     if (!asistencia.estado) {
         return res.status(400).json({
@@ -39,7 +39,7 @@ const obtenerAsistencia = async(req = request, res = response) => {
 }
 
 const crearAsistencia = async(req = request, res = response) => {
-    const { estado, empleado, cliente, ...body } = req.body;
+    const { estado, empleado, ...body } = req.body;
 
     const data = {
         ...body,

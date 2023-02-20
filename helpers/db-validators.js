@@ -141,6 +141,14 @@ const categoriaExiste = async(id) => {
     }
 }
 
+const categoriaNombreExiste = async(nombre = '') => {
+    const existeNombre = await Categoria.findOne({nombre});
+
+    if (existeNombre) {
+        throw new Error(`El nombre ${nombre}, ya está en uso`);
+    }
+}
+
 // Helpers PROVEEDORES
 const proveedorExiste = async(id) => {
     const existeProveedor = await Proveedor.findById(id);
@@ -233,6 +241,7 @@ module.exports = {
     nominaPagada,
     servicioExiste,
     categoriaExiste,
+    categoriaNombreExiste,
     proveedorExiste,
     productoExiste,
     gastoExiste,

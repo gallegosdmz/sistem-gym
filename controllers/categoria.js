@@ -24,7 +24,7 @@ const obtenerCategorias = async(req = request, res = response) => {
 const obtenerCategoria = async(req = request, res = response) => {
     const { id } = req.params;
     
-    const categoria = await Categoria.findById(id);
+    const categoria = await Categoria.findById(id).populate('empleado', 'uid nombre apellido estado correo');
 
     if (!categoria.estado) {
         return res.status(400).json({
@@ -57,8 +57,22 @@ const crearCategoria = async(req = request, res = response) => {
 
 const editarCategoria = async(req = request, res = response) => {
     const { id } = req.params;
+    const buscar = await Categoria.findById(id);
 
-    const { estado, ...body } = req.body;
+    const { estado, nombre, ...body } = req.body;
+
+    // Verificacion de nombre enviado
+    if (nombre !== buscar.nombre) {
+        const buscarNombre = await Categoria.findOne({nombre});
+
+        if (buscarNombre) {
+            return res.status(400).json({
+                msg: `El nombre ${nombre}, ya está en uso`
+            });
+        }
+
+        body.nombre = nombre;
+    }
 
     body.updated_at = timeStamp;
 

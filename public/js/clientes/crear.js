@@ -41,7 +41,7 @@ const getMensualidades = async() => {
 }
 
 const validarJWT = async() => {
-    const token = localStorage.getItem('token') || '';
+    const token = getToken();
 
     if (token.length <= 10) {
         window.location = '../empleados/login.html';
@@ -140,8 +140,6 @@ formulario.addEventListener('submit', ev => {
         // Eliminar espacios en blanco de contraseña
         const contra = formData.password;
         formData.password = contra.split(" ").join("");
-
-        console.log(formData);
 
         fetch('http://localhost:8080/cliente', {
             method: 'POST',

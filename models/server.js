@@ -10,6 +10,7 @@ class Server {
 
         // Paths de rutas
         this.paths = {
+            asistencia: '/asistencia',
             auth: '/auth',
             categoria: '/categoria',
             cliente: '/cliente',
@@ -52,6 +53,7 @@ class Server {
     }
 
     routes() {
+        this.app.use(this.paths.asistencia, require('../routes/asistencia.routes'));
         this.app.use(this.paths.auth, require('../routes/auth.routes'));
         this.app.use(this.paths.categoria, require('../routes/categoria.routes'));
         this.app.use(this.paths.cliente, require('../routes/cliente.routes'));

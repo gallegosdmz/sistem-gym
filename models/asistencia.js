@@ -23,6 +23,11 @@ const AsistenciaSchema = Schema({
         required: true
     },
 
+    estado: {
+        type: Boolean,
+        default: true
+    },
+
     created_at: {
         type: Date,
         default: timeStamp

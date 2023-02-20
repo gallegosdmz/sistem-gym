@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { body, param } = require('express-validator');
 const { obtenerCategorias, obtenerCategoria, crearCategoria, editarCategoria, eliminarCategoria } = require('../controllers/categoria');
-const { categoriaExiste } = require('../helpers/db-validators');
+const { categoriaExiste, categoriaNombreExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { esAdminRole } = require('../middlewares/validar-roles');
@@ -26,6 +26,7 @@ router.post('/', [
     validarJWT,
     esAdminRole,
     body('nombre', 'El nombre es obligatorio').notEmpty(),
+    body('nombre').custom(categoriaNombreExiste),
     validarCampos
 ], crearCategoria);
 
