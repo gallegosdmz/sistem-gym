@@ -48,6 +48,10 @@ const EmpleadoSchema = Schema({
         required: [true, 'El sexo es obligatorio']
     },
 
+    img: {
+        type: String
+    },
+
     estado_civil: {
         type: String,
         required: [true, 'El estado civil es obligatorio']

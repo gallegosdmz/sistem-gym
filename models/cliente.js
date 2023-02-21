@@ -31,6 +31,10 @@ const ClienteSchema = Schema({
         required: [true, 'El telefono es obligatorio']
     },
 
+    img: {
+        type: String
+    },
+
     mensualidad: {
         type: Schema.Types.ObjectId,
         ref: 'Mensualidade',
