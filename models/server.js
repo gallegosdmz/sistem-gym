@@ -17,6 +17,7 @@ class Server {
             cliente: '/cliente',
             contacto: '/contacto',
             empleado: '/empleado',
+            ganancia: '/ganancia',
             gasto: '/gasto',
             mensualidad: '/mensualidad',
             nomina: '/nomina',
@@ -68,6 +69,7 @@ class Server {
         this.app.use(this.paths.cliente, require('../routes/cliente.routes'));
         this.app.use(this.paths.contacto, require('../routes/contacto.routes'));
         this.app.use(this.paths.empleado, require('../routes/empleado.routes'));
+        this.app.use(this.paths.ganancia, require('../routes/ganancia.routes'));
         this.app.use(this.paths.gasto, require('../routes/gasto.routes'));
         this.app.use(this.paths.mensualidad, require('../routes/mensualidad.routes'));
         this.app.use(this.paths.nomina, require('../routes/nomina.routes'));

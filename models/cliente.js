@@ -63,6 +63,11 @@ const ClienteSchema = Schema({
         type: Date
     },
 
+    mensualidad_pagada: {
+        type: Boolean,
+        default: true
+    },
+
     estado: {
         type: Boolean,
         default: true

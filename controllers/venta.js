@@ -1,4 +1,4 @@
-const { response, request } = require('express');
+ const { response, request } = require('express');
 const { Venta, Cliente } = require('../models');
 
 const { CurrentDate } = require('../helpers');
@@ -39,8 +39,30 @@ const obtenerVenta = async(req = request, res = response) => {
     })
 }
 
+const obtenerNumeroVenta = async(req = request, res = response) => {
+    const ventas = await Venta.find();
+    let lastNum = 0;
+    let max = 0;
+
+    ventas.forEach(x => {
+        if (x.numeroVenta == 1) {
+            lastNum = x.numeroVenta;
+            max = x.numeroVenta;
+        } else {
+
+            if (x.numeroVenta > lastNum) {
+                max = x.numeroVenta;
+            }
+        }
+    });
+
+    res.json({
+        max
+    });
+}
+
 const crearVenta = async(req = request, res = response) => {
-    const { estado, empleado, cliente, ...body } = req.body;
+    const { estado, empleado, cliente, fecha, ...body } = req.body;
 
     if (cliente) {
         const buscarCliente = await Cliente.findById(cliente);
@@ -59,6 +81,11 @@ const crearVenta = async(req = request, res = response) => {
 
         body.cliente = cliente;
     }
+
+    // Sacar fecha
+    const time = timeStamp.toJSON();
+    const date = time.slice(0, 10);
+    body.fecha = date;
 
     const data = {
         ...body,
@@ -125,6 +152,7 @@ const eliminarVenta = async(req = request, res = response) => {
 module.exports = {
     obtenerVentas,
     obtenerVenta,
+    obtenerNumeroVenta,
     crearVenta,
     editarVenta,
     eliminarVenta

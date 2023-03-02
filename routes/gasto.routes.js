@@ -27,7 +27,6 @@ router.post('/', [
     esAdminRole,
     body('nombre', 'El nombre es obligatorio').notEmpty(),
     body('precio', 'El precio tiene que ser númerico').isNumeric(),
-    body('stock', 'El stock tiene que ser númerico').isNumeric(),
     validarCampos
 ], crearGasto);
 
@@ -37,7 +36,6 @@ router.put('/:id', [
     param('id', 'El ID no es válido').isMongoId(),
     param('id').custom(gastoExiste),
     body('precio', 'El precio tiene que ser númerico').isNumeric(),
-    body('stock', 'El stock tiene que ser númerico').isNumeric(),
     validarCampos
 ], editarGasto);
 

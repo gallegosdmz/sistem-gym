@@ -6,6 +6,11 @@ const { CurrentDate } = require('../helpers');
 const timeStamp = CurrentDate();
 
 const VentaSchema = Schema({
+    numeroVenta: {
+        type: Number,
+        required: [true, 'El numero de venta es obligatorio']
+    },
+
     subtotal: {
         type: Number,
         required: [true, 'El subtotal es obligatorio']
@@ -16,11 +21,15 @@ const VentaSchema = Schema({
         required: [true, 'La cantidad es obligatoria']
     },
 
-    productos: [{
+    producto: {
         type: Schema.Types.ObjectId,
-        ref: 'Producto',
-        required: true
-    }],
+        ref: 'Producto'
+    },
+
+    mensualidad: {
+        type: Schema.Types.ObjectId,
+        ref: 'Mensualidade'
+    },
 
     cliente: {
         type: Schema.Types.ObjectId,
@@ -31,6 +40,11 @@ const VentaSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Empleado',
         required: true
+    },
+
+    fecha: {
+        type: String,
+        default: timeStamp
     },
 
     estado: {

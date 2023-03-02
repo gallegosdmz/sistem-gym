@@ -17,8 +17,7 @@ const GastoSchema = Schema({
     },
 
     stock: {
-        type: Number,
-        required: [true, 'El stock es obligatorio']
+        type: Number
     },
 
     empleado: {
