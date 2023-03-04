@@ -3,6 +3,7 @@ const url_num = 'http://localhost:8080/venta/numeroVenta';
 const url_producto = 'http://localhost:8080/producto/';
 
 const empleadoName = document.querySelector('#empleadoName');
+const divProductos = document.querySelector('#divProductos');
 
 const getToken = () => {
     return localStorage.getItem('token') || '';
@@ -42,6 +43,20 @@ const validarJWT = async() => {
     }
 
     empleadoName.innerText = empleado.nombre;
+}
+
+const renderProducto = (data) => {
+
+        const html = `
+        <label>${data.nombre}</label>
+        <label>${data.precio}</label>
+        `;
+
+        const div = document.createElement('div');
+        div.innerHTML = html;
+
+        divProductos.append(div);
+
 }
 
 const updateCarrito = async() => {
@@ -85,16 +100,17 @@ const updateCarrito = async() => {
                 headers: {'x-token': token}
             });
 
-            const { producto } = await resp.json();
+            const { producto } = await resp.json().then(renderProducto);
 
-            console.log(`Nombre: ${producto.nombre}`);
-            console.log(`Precio: ${producto.precio_venta}`);
+            
             
             productos.push({'id': producto.uid, 'Nombre': producto.nombre, 'Precio': producto.precio_venta, 'Cantidad': 1});
             localStorage.setItem('productos', JSON.stringify(productos));
 
             active = true;
             localStorage.setItem('active', active);
+
+            document.getElementById('btnComprar').classList.remove('d-none');
         }
     }
 }

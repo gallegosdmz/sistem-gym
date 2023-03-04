@@ -31,6 +31,7 @@ router.get('/:id', [
 router.post('/', [
     validarJWT,
     esEmpleadoRole,
+    body('numeroVenta', 'El numero de venta tiene que ser númerico').isNumeric(),
     body('subtotal', 'El subtotal tiene que ser númerico').isNumeric(),
     body('cantidad', 'La cantidad tiene que ser númerica').isNumeric(),
     body('producto').custom(productoExiste),
