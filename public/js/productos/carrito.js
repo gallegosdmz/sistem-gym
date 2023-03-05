@@ -3,7 +3,24 @@ const url_num = 'http://localhost:8080/venta/numeroVenta';
 const url_producto = 'http://localhost:8080/producto/';
 
 const empleadoName = document.querySelector('#empleadoName');
-const divProductos = document.querySelector('#divProductos');
+const divProductos = document.getElementById('divProductos');
+const listarProductos = document.getElementById('listarProductos');
+const labelTotal = document.getElementById('labelTotal');
+
+const getProductosStorage = () => {
+    const array = localStorage.getItem('productos');
+
+    const productos = JSON.parse(array);
+
+    return productos;
+}
+
+const getCortar = () => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const cortar = urlSearchParams.get("cortar");
+
+    return cortar;
+}
 
 const getToken = () => {
     return localStorage.getItem('token') || '';
@@ -14,6 +31,30 @@ const getId = () => {
     const id = urlSearchParams.get("id");
 
     return id;
+}
+
+const getProductos = async() => {
+    const token = getToken();
+
+    const resp = await fetch(`${url_producto}?limite=100`, {
+        headers: {'x-token': token}
+    });
+
+    const { productos } = await resp.json();
+
+    return productos;
+}
+
+const getNumVenta = async() => {
+    const token = getToken();
+
+    const resp = await fetch(`${url_num}`, {
+        headers: {'x-token': token}
+    });
+
+    const { max } = await resp.json();
+
+    return max;
 }
 
 const validarJWT = async() => {
@@ -48,50 +89,98 @@ const validarJWT = async() => {
 const renderProducto = (data) => {
 
         const html = `
-        <label>${data.nombre}</label>
-        <label>${data.precio}</label>
+        <label id="${data.uid}"><a href="carrito.html?id=${data.uid}&cortar=true"><i class="fas fa-trash-alt fa-sm fa-fw mr-2 text-danger"></i></a> ${data.Nombre}</label>
+        <label> - $${data.Precio}</label>
+        <label> - Cantidad: ${data.Cantidad}</label>
+        <label> - Subtotal: $${data.Subtotal}</label>
         `;
 
         const div = document.createElement('div');
         div.innerHTML = html;
 
         divProductos.append(div);
+}
 
+const renderProductos = (data) => {
+    data.forEach(x => {
+        const html = `
+        <label id="${x.uid}"><a href="carrito.html?id=${x.uid}"><i class="fas fa-check-square fa-sm fa-fw mr-2 text-success"></i></a> ${x.nombre}</label>
+        <label> - $${x.precio_venta}</label>
+        `;
+
+        const div = document.createElement('div');
+        div.innerHTML = html;
+
+        listarProductos.append(div);
+    });
 }
 
 const updateCarrito = async() => {
     const id = getId();
     const token = getToken();
+    const cortar = getCortar();
 
     let active = localStorage.getItem('active') || false;
     let productos = localStorage.getItem('productos') || [];
+    let total = 0;
 
     if (active) {
+        document.getElementById('divTotal').classList.remove('d-none');
+        document.getElementById('btnComprar').classList.remove('d-none');
+        
         let encontro = false;
         let num = 0;
 
         let arr = JSON.parse(productos);
 
         for (let i = 0; i < arr.length; i++) {
-            if (arr[i].id == id) {
+            if (arr[i].uid == id) {
                 encontro = true;
                 num = i;
             }
         }
 
         if (encontro) {
-            arr[num].Cantidad = arr[num].Cantidad + 1;
-            localStorage.setItem('productos', JSON.stringify(arr));
-        } else {
-            const resp = await fetch(`${url_producto}${id}`, {
-                headers: {'x-token': token}
-            });
+            if (cortar) {
+                const res = arr.filter((arr) => arr.uid !== id);
+                arr = res;
+                
+                if (arr.length == 0) {
+                    localStorage.removeItem('productos');
+                    localStorage.removeItem('active');
 
-            const { producto } = await resp.json();
+                    window.location = 'carrito.html'
+                } else {
+                    localStorage.setItem('productos', JSON.stringify(arr));
+                }
+            } else {
+                arr[num].Cantidad++;
+                arr[num].Subtotal = arr[num].Precio * arr[num].Cantidad;
+                localStorage.setItem('productos', JSON.stringify(arr));
+            }
+        } else {    
+            if (id) {
+                const resp = await fetch(`${url_producto}${id}`, {
+                    headers: {'x-token': token}
+                });
+    
+                const { producto } = await resp.json();
+    
+                arr.push({'uid': producto.uid, 'Nombre': producto.nombre, 'Precio': producto.precio_venta, 'Cantidad': 1, 'Subtotal': producto.precio_venta});
+                localStorage.setItem('productos', JSON.stringify(arr));
 
-            arr.push({'id': producto.uid, 'Nombre': producto.nombre, 'Precio': producto.precio_venta, 'Cantidad': 1});
-            localStorage.setItem('productos', JSON.stringify(arr));
+            }  
         }
+
+        arr.forEach(x => {
+            renderProducto(x);
+            
+            total = total + (x.Precio * x.Cantidad);
+
+            labelTotal.innerText = `$${total}`;
+        });
+
+        
 
     } else {
 
@@ -100,57 +189,74 @@ const updateCarrito = async() => {
                 headers: {'x-token': token}
             });
 
-            const { producto } = await resp.json().then(renderProducto);
+            const { producto } = await resp.json();
 
+            const render = {'uid': producto.uid, 'Nombre': producto.nombre, 'Precio': producto.precio_venta, 'Cantidad': 1, 'Subtotal': producto.precio_venta};
+
+            total = render.Precio;
+            labelTotal.innerText = `$${total}`;
+
+            renderProducto(render);
             
-            
-            productos.push({'id': producto.uid, 'Nombre': producto.nombre, 'Precio': producto.precio_venta, 'Cantidad': 1});
+            productos.push(render);
             localStorage.setItem('productos', JSON.stringify(productos));
 
             active = true;
             localStorage.setItem('active', active);
 
+            document.getElementById('divTotal').classList.remove('d-none');
             document.getElementById('btnComprar').classList.remove('d-none');
-        }
+        }   
     }
 }
 
-/* formulario.addEventListener('submit', ev => {
+formulario.addEventListener('submit', async(ev) => {
     ev.preventDefault();
-    const formData = {};
 
-    const token = getToken();
+    const productos = getProductosStorage();
+
+    let numeroVenta = 0;
+    let formData = {};
+
+    let numero = await getNumVenta();
+    numeroVenta = numero + 1;
+
+    productos.forEach(x => {
+
+        formData = {"numeroVenta": numeroVenta, "subtotal": x.Subtotal, "cantidad": x.Cantidad, "producto": x.uid};
+
+        const token = getToken();
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {'Content-Type': 'application/json', 'x-token': token}
+        })
+        .then(resp => resp.json())
+        .then(({errors}) => {
+            if (errors) {
+                console.log(errors);
+            }
+
+            window.location = 'listar.html';
+
+            localStorage.removeItem('productos');
+            localStorage.removeItem('active');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    });
+
+    
+});
 
 
-
-    for (let el of formulario.elements) {
-        if (el.name.length > 0) {
-            formData[el.name] = el.value;
-        }
-    }
-
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {'Content-Type': 'application/json', 'x-token': token}
-    })
-    .then(resp => resp.json())
-    .then(({errors}) => {
-        if (errors) {
-            console.log(errors);
-        }
-
-        window.location = 'listar.html';
-    })
-    .catch(err => {
-        console.log(err);
-    })
-
-}); */
 
 const main = async() => {
     await validarJWT();
-    await updateCarrito();
+    getProductos().then(renderProductos);
+    updateCarrito();
 } 
 
 main();

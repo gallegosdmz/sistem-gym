@@ -393,8 +393,8 @@
                             <!-- Page Heading -->
                             <h3 class="h3 mb-2 text-gray-800">Productos</h3>
                             <hr>
-
-                            <div class="divProductos"></div>
+                            
+                            <div id="listarProductos"></div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <!-- Page Heading -->
@@ -402,6 +402,12 @@
                             <hr>
                             
                             <form class="user" method="post" id="formulario">
+                                <div id="divProductos"></div>
+
+                                <div id="divTotal" class="d-none">
+                                    <label>Total: </label>
+                                    <b><label id="labelTotal"></label></b>
+                                </div>
                                 
                                 <button type="submit" class="btn btn-primary btn-user btn-block d-none" id="btnComprar">
                                     Comprar
