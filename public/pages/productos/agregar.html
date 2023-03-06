@@ -412,88 +412,48 @@
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="number" class="form-control form-control-user" name="precio_venta"
                                     id="precioventaInput" placeholder="Precio de Venta" required>
-                                <span class="d-none errorSpan" id="errorPassword">La contraseña no tiene más de 6 caracteres.</span>
+                                
                             </div>
                             <div class="col-sm-6">
                                 <input type="number" class="form-control form-control-user" name="precio_compra"
                                     id="preciocompraInput" placeholder="Precio de Compra" required>
-                                <span class="d-none errorSpan" id="errorRepeatpassword">La contraseña no es igual a la ingresada anteriormente.</span>
+                                
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="number" class="form-control form-control-user" name="stock" id="stockInput"
-                                    placeholder="Stock" required>
-                                    <span class="d-none errorSpan" id="errorCurp">Este CURP ya está registrado.</span>
-                            </div>
                             <div class="col-sm-6">
-                                <input type="image" class="form-control form-control-user" name="img" id="imageInput"
-                                    placeholder="" required>
-                                <span class="d-none errorSpan" id="errorRfc">Este RFC ya está registrado.</span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" name="num_seguro" id="numseguroInput"
-                                    placeholder="Número de Seguro">
-                                    <span class="d-none errorSpan" id="errorNumero">El número de seguro no es válido.</span>
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" name="lugar_nacimiento" id="lugarnacimientoInput"
-                                    placeholder="Lugar de Nacimiento" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <select name="sexo" id="sexoInput" class="form-control" required>
-                                    <option value="selecciona" disabled selected>Selecciona un sexo</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
+                                <select name="categoria" id="categoriaInput" class="form-control">
+                                    <option value="selecciona" disabled selected>Selecciona una categoria</option>
                                 </select>
                             </div>
                             <div class="col-sm-6">
-                                <select name="estado_civil" id="estadocivilInput" class="form-control" required>
-                                    <option value="selecciona" disabled selected>Selecciona su estado civil</option>
-                                    <option value="Soltero">Soltero</option>
-                                    <option value="Casado">Casado</option>
-                                    <option value="Divorciado">Divorciado</option>
-                                    <option value="Viudo">Víudo</option>
+                                <select name="proveedor" id="proveedorInput" class="form-control">
+                                    <option value="selecciona" disabled selected>Selecciona un proveedor</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="fechanacInput">Fecha de Nacimiento</label>
-                            <input type="date" class="form-control form-control-user" name="fecha_nac" id="fechanacInput" required>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="tel" class="form-control form-control-user" name="telefono" id="telefonoInput"
-                                    placeholder="Número de Telefono" required>
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" name="direccion" id="direccionInput"
-                                    placeholder="Direccion" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <select name="rol" id="rolInput" class="form-control" required>
-                                    <option value="selecciona" disabled selected>Selecciona un puesto</option>
-                                    <option value="ENTRENADOR">Entrenador</option>
-                                    <option value="RECEPCIONISTA">Recepcionista</option>
-                                    <option value="CONSERJE">Conserje</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
-                                <select name="contacto" id="contactoInput" class="form-control">
-                                    <option value="selecciona" disabled selected>Selecciona un contacto</option>
-                                </select>
-                            </div>
+                                <input type="number" class="form-control form-control-user" name="stock" id="stockInput"
+                                    placeholder="Stock" required>
+                                    <span class="d-none errorSpan" id="errorCurp">Este CURP ya está registrado.</span>
                         </div>
                         <button type="submit" class="btn btn-primary btn-user btn-block">
                             Guardar
                         </button>
                     </form>
+
+                    <!-- Ventana modal, por defecto no visiblel -->
+                    <div id="ventanaModal" class="modal">
+                        <div class="contenido-modal">
+                            <span class="cerrar">&times;</span>
+                            <h2 class="mb-3">¿Deseas agregar una imagen para este producto?</h2>
+                            <input type="file" id="imgInput">
+
+                            <button class="btn btn-danger" id="confAgregar">Agregar</button>
+                            <button class="btn btn-primary" id="confSalir">Salir</button>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- /.container-fluid -->
 

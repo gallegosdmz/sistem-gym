@@ -15,6 +15,13 @@ const getProductosStorage = () => {
     return productos;
 }
 
+const getRestar = () => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const restar = urlSearchParams.get("restar");
+
+    return restar;
+}
+
 const getCortar = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const cortar = urlSearchParams.get("cortar");
@@ -91,7 +98,7 @@ const renderProducto = (data) => {
         const html = `
         <label id="${data.uid}"><a href="carrito.html?id=${data.uid}&cortar=true"><i class="fas fa-trash-alt fa-sm fa-fw mr-2 text-danger"></i></a> ${data.Nombre}</label>
         <label> - $${data.Precio}</label>
-        <label> - Cantidad: ${data.Cantidad}</label>
+        <label> - Cantidad: </label> <a href="carrito.html?id=${data.uid}&sumar=${data.Cantidad + 1}" class="btn btn-sm btn-outline-success">+1</a> ${data.Cantidad} <a href="carrito.html?id=${data.uid}&restar=${data.Cantidad - 1}" class="btn btn-sm btn-outline-success">-1</a>
         <label> - Subtotal: $${data.Subtotal}</label>
         `;
 
@@ -119,6 +126,7 @@ const updateCarrito = async() => {
     const id = getId();
     const token = getToken();
     const cortar = getCortar();
+    const restar = getRestar();
 
     let active = localStorage.getItem('active') || false;
     let productos = localStorage.getItem('productos') || [];
@@ -141,23 +149,45 @@ const updateCarrito = async() => {
         }
 
         if (encontro) {
-            if (cortar) {
-                const res = arr.filter((arr) => arr.uid !== id);
-                arr = res;
-                
-                if (arr.length == 0) {
-                    localStorage.removeItem('productos');
-                    localStorage.removeItem('active');
+            if (restar > 0) {
+                arr[num].Cantidad = restar;
+            } else {
 
-                    window.location = 'carrito.html'
+                if (restar == 0) {
+                    const res = arr.filter((arr) => arr.uid !== id);
+                    arr = res;
+                    
+                    if (arr.length == 0) {
+                        localStorage.removeItem('productos');
+                        localStorage.removeItem('active');
+    
+                        window.location = 'carrito.html'
+                    } else {
+                        localStorage.setItem('productos', JSON.stringify(arr));
+
+                        window.location = 'carrito.html'
+                    }
+                }
+
+                if (cortar) {
+                    const res = arr.filter((arr) => arr.uid !== id);
+                    arr = res;
+                    
+                    if (arr.length == 0) {
+                        localStorage.removeItem('productos');
+                        localStorage.removeItem('active');
+    
+                        window.location = 'carrito.html'
+                    } else {
+                        localStorage.setItem('productos', JSON.stringify(arr));
+                    }
                 } else {
+                    arr[num].Cantidad++;
+                    arr[num].Subtotal = arr[num].Precio * arr[num].Cantidad;
                     localStorage.setItem('productos', JSON.stringify(arr));
                 }
-            } else {
-                arr[num].Cantidad++;
-                arr[num].Subtotal = arr[num].Precio * arr[num].Cantidad;
-                localStorage.setItem('productos', JSON.stringify(arr));
             }
+            
         } else {    
             if (id) {
                 const resp = await fetch(`${url_producto}${id}`, {
