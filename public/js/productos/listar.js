@@ -56,7 +56,7 @@ const renderProductos = (data) => {
         }
 
         const html = `
-            <td> <a href="cliente.html?id=${x.uid}">${x.nombre}</a> </td>
+            <td> <a href="producto.html?id=${x.uid}">${x.nombre}</a> </td>
             <td> $${x.precio_venta} </td>
             <td> $${x.precio_compra} </td>
             <td> ${x.stock} </td>
