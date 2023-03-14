@@ -1,9 +1,9 @@
 const url = 'http://localhost:8080/producto/';
 const url_categoria = 'http://localhost:8080/categoria/';
 const url_proveedor = 'http://localhost:8080/proveedor/';
-const url_upload = 'http://localhost:8080/upload/productos/'
 
 const empleadoName = document.querySelector('#empleadoName');
+
 const formulario = document.querySelector('#formulario');
 
 const categoriaInput = document.getElementById('categoriaInput');
@@ -27,6 +27,19 @@ const getToken = () => {
     return localStorage.getItem('token') || '';
 }
 
+const getProducto = async() => {
+    const token = getToken();
+    const id = getId();
+
+    const resp = await fetch(`${url}${id}`, {
+        headers: {'x-token': token}
+    });
+
+    const { producto } = await resp.json();
+
+    return producto;
+}
+
 const getCategorias = async() => {
     const token = getToken();
 
@@ -43,7 +56,7 @@ const getProveedores = async() => {
     const token = getToken();
 
     const resp = await fetch(`${url_proveedor}?limite=100`, {
-        headers: {'x-token': token}
+        	headers: {'x-token': token}
     });
 
     const { proveedores } = await resp.json();
@@ -52,7 +65,7 @@ const getProveedores = async() => {
 }
 
 const validarJWT = async() => {
-    const token = getToken();
+    const token = localStorage.getItem('token') || '';
 
     if (token.length <= 10) {
         window.location = '../empleados/login.html';
@@ -73,8 +86,6 @@ const validarJWT = async() => {
 
     if (empleado.rol !== 'ADMIN') {
         document.getElementById('navEmpleados').remove();
-        document.getElementById('navGanancias').remove();
-        document.getElementById('navNominas').remove();
     }
 
     empleadoName.innerText = empleado.nombre;
@@ -103,6 +114,18 @@ const resetErrors = () => {
     document.getElementById('errorPassword').classList.add('d-none');
 }
 
+const renderProducto = (producto) => {
+    const { nombre, precio_venta, precio_compra, description, stock, categoria, proveedor } = producto;
+
+    document.getElementById('nombreInput').value = nombre;
+    document.getElementById('descriptionInput').value = description;
+    document.getElementById('precioventaInput').value = precio_venta;
+    document.getElementById('preciocompraInput').value = precio_compra;
+    document.getElementById('stockInput').value = stock;
+    document.getElementById('categoriaInput').value = categoria.uid;
+    document.getElementById('proveedorInput').value = proveedor.uid;
+}
+
 const renderCategorias = (data) => {
     data.forEach(x => {
         const option = document.createElement('option');
@@ -127,6 +150,7 @@ formulario.addEventListener('submit', ev => {
     ev.preventDefault();
     const formData = {};
 
+    const id = getId();
     const token = getToken();
 
     for (let el of formulario.elements) {
@@ -135,8 +159,8 @@ formulario.addEventListener('submit', ev => {
         }
     }
 
-    fetch(url, {
-        method: 'POST',
+    fetch(`${url}${id}`, {
+        method: 'PUT',
         body: JSON.stringify(formData),
         headers: {'Content-Type': 'application/json', 'x-token': token}
     })
@@ -188,6 +212,7 @@ formulario.addEventListener('submit', ev => {
 
 const main = async() => {
     await validarJWT();
+    getProducto().then(renderProducto);
     getCategorias().then(renderCategorias);
     getProveedores().then(renderProveedores);
 }

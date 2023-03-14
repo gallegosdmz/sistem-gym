@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { body, param } = require('express-validator');
-const { obtenerAsistencias, obtenerAsistencia, crearAsistencia, eliminarAsistencia } = require('../controllers/asistencia');
+const { obtenerAsistencias, obtenerAsistencia, obtenerAsistenciasPasadas, crearAsistencia, eliminarAsistencia } = require('../controllers/asistencia');
 const { asistenciaExiste, clienteExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -13,6 +13,12 @@ router.get('/', [
     esEmpleadoRole,
     validarCampos
 ], obtenerAsistencias);
+
+router.get('/pasada', [
+    validarJWT,
+    esEmpleadoRole,
+    validarCampos
+], obtenerAsistenciasPasadas);
 
 router.get('/:id', [
     validarJWT,

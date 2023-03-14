@@ -421,9 +421,20 @@
                     <div id="ventanaModal" class="modal">
                         <div class="contenido-modal">
                             <span class="cerrar">&times;</span>
-                            <h2 class="mb-3">¿Desea eliminar este usuario?</h2>
+                            <h2 class="mb-3">¿Desea eliminar este producto?</h2>
                             <button class="btn btn-danger" id="confEliminar">Eliminar</button>
                             <button class="btn btn-primary" id="confSalir">Salir</button>
+                        </div>
+                    </div>
+
+                    <!-- Ventana modal, por defecto no visiblel -->
+                    <div id="ventanaModalId" class="modal-id">
+                        <div class="contenido-modal">
+                            <span class="cerrar" id="cerrar_id">&times;</span>
+                            <h2 class="mb-3">El producto que intenta buscar no existe, pruebe con otro.</h2>
+                            <input type="text" id="inputModal" class="form-control mb-2" placeholder="Ingrese un ID">
+                            <button class="btn btn-success" id="confBuscar">Buscar</button>
+                            <button class="btn btn-primary" id="confCancelar">Regresar a la lista</button>
                         </div>
                     </div>
 

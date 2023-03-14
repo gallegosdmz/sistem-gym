@@ -25,6 +25,7 @@ router.get('/:id', [
 router.post('/', [
     validarJWT,
     esEmpleadoRole,
+    body('fecha', 'La fecha es obligatoria').notEmpty(),
     validarCampos
 ], crearTurno);
 

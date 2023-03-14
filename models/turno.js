@@ -8,7 +8,7 @@ const timeStamp = CurrentDate();
 const TurnoSchema = Schema({
     fecha: {
         type: String,
-        default: timeStamp
+        required: [true, 'La fecha es obligatoria']
     },
 
     empleados: [{

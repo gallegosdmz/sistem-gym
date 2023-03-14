@@ -17,6 +17,8 @@ const span = document.getElementsByClassName("cerrar")[0];
 const confEliminar = document.querySelector('#confEliminar');
 const confSalir = document.querySelector('#confSalir');
 
+const modal_id = document.getElementById('ventanaModalId');
+
 const getId = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const id = urlSearchParams.get("id");
@@ -26,6 +28,20 @@ const getId = () => {
 
 const getToken = () => {
     return localStorage.getItem('token') || '';
+}
+
+const errorSearchId = () => {
+    modal_id.style.display = "block";
+
+    confBuscar.addEventListener('click', () => {
+        const id = document.getElementById('inputModal').value;
+        
+        window.location = `producto.html?id=${id}`;
+    });
+
+    confCancelar.addEventListener('click', () => {
+        window.location = 'listar.html';
+    });
 }
 
 const getProducto = async() => {
@@ -74,15 +90,66 @@ const validarJWT = async() => {
 }
 
 const renderProducto = (producto) => {
+    let disponible = 'No';
+
+    if (!producto) {
+        errorSearchId();
+    }
+
+    if (producto.disponible) {
+        disponible = 'Si';
+    }
+
     idP.innerText = producto.uid;
     nombreP.innerText = producto.nombre;
     precioVentaP.innerText = producto.precio_venta;
     precioCompraP.innerText = producto.precio_compra;
     stockP.innerText = producto.stock;
-    disponibleP.innerText = producto.disponible;
+    disponibleP.innerText = disponible;
     categoriaP.innerText = producto.categoria.nombre;
     proveedorP.innerText = producto.proveedor.nombre;
 }
+
+btnEditar.addEventListener('click', () => {
+    const id = getId();
+
+    window.location = `editar.html?id=${id}`;
+});
+
+btnBorrar.addEventListener('click', () => {
+    modal.style.display = "block";
+
+});
+
+span.addEventListener('click', () => {
+    modal.style.display = "none";
+});
+
+confEliminar.addEventListener('click', () => {
+    const token = getToken();
+
+    const id = getId();
+
+    fetch(`${url}${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json', 'x-token': token}
+    })
+    .then(resp => resp.json())
+    .then(({errors}) => {
+        if (errors) {
+            return console.error(errors);
+        }
+
+        window.location = 'listar.html';
+    })
+    .catch(err => {
+        console.log(err);
+    })
+});
+
+confSalir.addEventListener('click', () => {
+    modal.style.display = "none";
+});
 
 const main = async() => {
     await validarJWT();

@@ -21,6 +21,21 @@ const obtenerAsistencias = async(req = request, res = response) => {
     });
 }
 
+const obtenerAsistenciasPasadas = async(req = request, res = response) => {
+    const { fecha } = req.query;
+    const query = {estado: true, fecha: fecha};
+
+    const [total, asistencias] = await Promise.all([
+        Asistencia.countDocuments(query),
+        Asistencia.find(query)
+    ]);
+
+    res.json({
+        total,
+        asistencias
+    });
+}
+
 const obtenerAsistencia = async(req = request, res = response) => {
     const { id } = req.params;
 
@@ -37,6 +52,8 @@ const obtenerAsistencia = async(req = request, res = response) => {
         asistencia
     });
 }
+
+
 
 const crearAsistencia = async(req = request, res = response) => {
     const { estado, empleado, ...body } = req.body;
@@ -74,6 +91,7 @@ const eliminarAsistencia = async(req = request, res = response) => {
 module.exports = {
     obtenerAsistencias,
     obtenerAsistencia,
+    obtenerAsistenciasPasadas,
     crearAsistencia,
     eliminarAsistencia
 }
