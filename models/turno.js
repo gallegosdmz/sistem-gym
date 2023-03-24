@@ -11,6 +11,15 @@ const TurnoSchema = Schema({
         required: [true, 'La fecha es obligatoria']
     },
 
+    horaEntrada: {
+        type: String,
+        required: [true, 'La hora de entrada es obligatoria']
+    },
+
+    horaSalida: {
+        type: String
+    },
+
     empleados: [{
         type: Schema.Types.ObjectId,
         ref: 'Empleado',

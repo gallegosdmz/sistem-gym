@@ -5,6 +5,12 @@ const empleadoName = document.querySelector('#empleadoName');
 const btnIniciar = document.getElementById('btnIniciar');
 const btnTerminar = document.getElementById('btnTerminar');
 
+const getId = () => {
+    const id = localStorage.getItem('idTurno');
+
+    return id;
+}
+
 const getToken = () => {
     return localStorage.getItem('token') || '';
 }
@@ -73,6 +79,7 @@ btnIniciar.addEventListener('click', () => {
     if (hora >= '06:00:00' && hora <= '12:00:00') {
         const turno = {
             fecha: fechaActual,
+            horaEntrada: hora,
         }
 
         fetch(url, {
@@ -81,6 +88,9 @@ btnIniciar.addEventListener('click', () => {
             headers: {'Content-Type': 'application/json', 'x-token': getToken()}
         })
         .then(resp => resp.json())
+        .then(data => {
+            localStorage.setItem('idTurno', data.turno.uid);
+        })
         .then(({errors}) => {
             if (errors) {
                 return console.error(errors);
@@ -109,6 +119,28 @@ btnIniciar.addEventListener('click', () => {
 btnTerminar.addEventListener('click', async() => {
     const fecha = new Date();
     const hora = fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getSeconds();
+
+    const id = getId();
+
+    let formData = new FormData();
+    formData.append('horaSalida', hora);
+
+    fetch(`${url}${id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json', 'x-token': getToken()},
+        body: formData
+    })
+    .then(resp => resp.json())
+    .then(({errors}) => {
+        if (errors) {
+            return console.error(errors);
+        }
+
+        window.location = 'index.html';
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
     console.log(hora);
 

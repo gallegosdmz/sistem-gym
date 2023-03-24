@@ -26,6 +26,7 @@ router.post('/', [
     validarJWT,
     esEmpleadoRole,
     body('fecha', 'La fecha es obligatoria').notEmpty(),
+    body('horaEntrada', 'La hora de entrada es obligatoria').notEmpty(),
     validarCampos
 ], crearTurno);
 
@@ -34,6 +35,7 @@ router.put('/:id', [
     esEmpleadoRole,
     param('id', 'No es un ID válido').isMongoId(),
     param('id').custom(turnoExiste),
+    body('horaSalida', 'La hora de salida es obligatoria').notEmpty(),
     validarCampos
 ], editarTurno);
 
