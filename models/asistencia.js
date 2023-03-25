@@ -11,6 +11,11 @@ const AsistenciaSchema = Schema({
         default: timeStamp
     },
 
+    horaEntrada: {
+        type: String,
+        required: [true, 'La hora de entrada es obligatoria']
+    },
+
     empleado: {
         type: Schema.Types.ObjectId,
         ref: 'Empleado',

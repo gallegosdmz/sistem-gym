@@ -42,8 +42,7 @@ const ClienteSchema = Schema({
     },
 
     fecha_pago: {
-        type: Date,
-        default: timeStamp,
+        type: String
     },
 
     contacto: {

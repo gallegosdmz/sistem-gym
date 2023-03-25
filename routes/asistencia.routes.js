@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { body, param } = require('express-validator');
 const { obtenerAsistencias, obtenerAsistencia, obtenerAsistenciasPasadas, crearAsistencia, eliminarAsistencia } = require('../controllers/asistencia');
-const { asistenciaExiste, clienteExiste } = require('../helpers/db-validators');
+const { asistenciaExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { esAdminRole, esEmpleadoRole } = require('../middlewares/validar-roles');
@@ -31,8 +31,6 @@ router.get('/:id', [
 router.post('/', [
     validarJWT,
     esEmpleadoRole,
-    body('fecha', 'La fecha no es válida').isDate(),
-    body('cliente').custom(clienteExiste),
     validarCampos
 ], crearAsistencia);
 

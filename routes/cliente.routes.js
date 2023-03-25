@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { body, param } = require('express-validator');
-const { obtenerClientes, obtenerCliente, crearCliente, editarCliente, eliminarCliente } = require('../controllers/cliente');
+const { obtenerClientes, obtenerCliente, crearCliente, editarCliente, actualizarEstadoMensualidad, eliminarCliente } = require('../controllers/cliente');
 const { clienteExiste, emailExisteCliente, mensualidadExiste, contactoExiste, empleadoExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -32,11 +32,16 @@ router.post('/', [
     body('telefono', 'El telefono es obligatorio').notEmpty(),
     body('mensualidad', 'La mensualidad es obligatoria').notEmpty(),
     body('mensualidad').custom(mensualidadExiste),
-    body('fecha_pago', 'La fecha no es valida').isDate(),
     body('contacto').custom(contactoExiste),
     body('fecha_nac', 'La fecha no es valida').isDate(),
     validarCampos
 ], crearCliente);
+
+router.put('/mensualidad', [
+    validarJWT,
+    esEmpleadoRole,
+    validarCampos
+], actualizarEstadoMensualidad);
 
 router.put('/:id', [
     validarJWT,

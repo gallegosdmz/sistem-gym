@@ -1,5 +1,5 @@
 const { response, request } = require('express');
-const { Asistencia } = require('../models');
+const { Asistencia, Cliente } = require('../models');
 
 const { CurrentDate } = require('../helpers');
 const timeStamp = CurrentDate();
@@ -53,10 +53,41 @@ const obtenerAsistencia = async(req = request, res = response) => {
     });
 }
 
-
-
 const crearAsistencia = async(req = request, res = response) => {
-    const { estado, empleado, ...body } = req.body;
+    const { estado, empleado, correo, ...body } = req.body;
+
+    const cliente = await Cliente.findOne({correo});
+
+    if (!cliente) {
+        return res.status(400).json({
+            msg: 'El correo no existe'
+        });
+    }
+
+    if (!cliente.mensualidad_pagada) {
+        return res.status(400).json({
+            msg: 'La mensualidad está vencida'
+        });
+    }
+
+    body.cliente = cliente._id;
+
+    const hoy = new Date();
+    const hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+
+    const fecha = hoy.toLocaleDateString();
+    const array = fecha.split('/');
+
+    let fechaActual = '';
+
+    if (array[1].length === 1) {
+         fechaActual = array[2] + "-0" + array[1] + "-" + array[0];
+    } else {
+         fechaActual = array[2] + "-" + array[1] + "-" + array[0];
+    }
+
+    body.horaEntrada = hora;
+    body.fecha = fechaActual;
 
     const data = {
         ...body,

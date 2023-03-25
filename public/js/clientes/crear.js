@@ -1,6 +1,8 @@
 const url = 'http://localhost:8080/cliente';
 const url_contactos = 'http://localhost:8080/contacto';
 const url_mensualidades = 'http://localhost:8080/mensualidad';
+const url_ventas = 'http://localhost:8080/venta';
+const url_num = 'http://localhost:8080/venta/numeroVenta';
 
 const empleadoName = document.querySelector('#empleadoName');
 
@@ -38,6 +40,16 @@ const getMensualidades = async() => {
     const { mensualidades } = await resp.json();
 
     return mensualidades;
+}
+
+const getNumVenta = async() => {
+    const resp = await fetch(url_num, {
+        headers: {'x-token': getToken()}
+    });
+
+    const { max } = await resp.json();
+
+    return max;
 }
 
 const validarJWT = async() => {
@@ -147,6 +159,38 @@ formulario.addEventListener('submit', ev => {
             headers: {'Content-Type': 'application/json', 'x-token': token}
         })
         .then(resp => resp.json())
+        .then(async(data) => {
+            const id = data.cliente.uid;
+            
+            let numeroVenta = 0;
+            let numero = await getNumVenta();
+            numeroVenta = numero + 1;
+
+            let formData = {
+                "numeroVenta": numeroVenta,
+                "subtotal": data.precio,
+                "cantidad": 1,
+                "mensualidad": data.cliente.mensualidad,
+                "cliente": id
+            }
+
+            fetch(url_ventas, {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {'Content-Type': 'application/json', 'x-token': getToken()}
+            })
+            .then(resp => resp.json())
+            .then(({errors}) => {
+                if (errors) {
+                    return console.log(errors);
+                }
+    
+                window.location = 'listar.html';
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        })
         .then(({errors}) => {
             if (errors) {
                 console.log(errors);
@@ -175,8 +219,6 @@ formulario.addEventListener('submit', ev => {
                     }
                 });
             }
-
-            window.location = 'listar.html';
         })
         .catch(err => {
             console.log(err);

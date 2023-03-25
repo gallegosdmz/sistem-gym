@@ -12,8 +12,7 @@ const TurnoSchema = Schema({
     },
 
     horaEntrada: {
-        type: String,
-        required: [true, 'La hora de entrada es obligatoria']
+        type: String
     },
 
     horaSalida: {
@@ -28,7 +27,7 @@ const TurnoSchema = Schema({
 
     asistencias: [{
         type: Schema.Types.ObjectId,
-        ref: 'Cliente'
+        ref: 'Asistencia'
     }],
 
     disponible: {
