@@ -40,11 +40,12 @@ const obtenerGasto = async(req = request, res = response) => {
 }
 
 const crearGasto = async(req = request, res = response) => {
-    const { estado, producto, servicio, nomina, individual, ...body } = req.body;
+    const { estado, producto, servicio, nomina, fecha, ...body } = req.body;
 
-    if (individual) {
-        body.stock = 1;
-    }
+    // Sacar fecha
+    const time = timeStamp.toJSON();
+    const date = time.slice(0, 10);
+    body.fecha = date;
 
     if (producto) {
         const buscarProducto = await Producto.findById(producto);

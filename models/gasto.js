@@ -20,6 +20,11 @@ const GastoSchema = Schema({
         type: Number
     },
 
+    fecha: {
+        type: String,
+        default: timeStamp
+    },
+
     empleado: {
         type: Schema.Types.ObjectId,
         ref: 'Empleado',
