@@ -1,5 +1,5 @@
  const { response, request } = require('express');
-const { Venta, Cliente } = require('../models');
+const { Venta, Cliente, Producto } = require('../models');
 
 const { CurrentDate } = require('../helpers');
 const timeStamp = CurrentDate();
@@ -82,6 +82,22 @@ const crearVenta = async(req = request, res = response) => {
         body.cliente = cliente;
     }
 
+    let editarStock = '';
+
+    if (body.producto) {
+        const producto = await Producto.findById(body.producto);
+
+        if (!producto) {
+            return res.status(400).json({
+                msg: `El producto ${producto}, no existe`
+            });
+        }
+
+        const newStock = producto.stock - body.stock;
+
+        editarStock = await Producto.findByIdAndUpdate(body.producto, {stock: newStock}, {new: true});
+    }
+
     // Sacar fecha
     const time = timeStamp.toJSON();
     const date = time.slice(0, 10);
@@ -98,7 +114,8 @@ const crearVenta = async(req = request, res = response) => {
     await venta.save();
 
     res.json({
-        venta
+        venta,
+        editarStock
     });
 }
 

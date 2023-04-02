@@ -63,6 +63,15 @@ const generarReporteDiario = async(req = request, res = response) => {
             doc.fontSize(16).text(`${x.mensualidad.tipo} - Cantidad Vendida: ${x.cantidad}`, {wordSpacing: 3, lineGap: 5});
         }
     });
+
+    if (acumGastos > 0) {
+        doc.fontSize(16).text('Gastos del Día: ', {wordSpacing: 3, lineGap: 10});
+
+        gastos.forEach(x => {
+            
+        });
+    }
+
     doc.end();
 }
 
